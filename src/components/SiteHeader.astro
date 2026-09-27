@@ -11,7 +11,7 @@ const languages = [['zh', '中'], ['en', 'EN'], ['ja', '日']] as const;
     <div class="nav-cluster">
       <nav id="nav-links" aria-label="Main navigation">
         {links.map(([href, label]) => <a href={withBase(href)} aria-current={path.startsWith(withBase(href)) ? 'page' : undefined}>{label}</a>)}
-        <a href={withBase('/')}>nagi.tw ↗</a>
+        <a href="https://notes.nagi.tw/">Nagi.tw ↗</a>
       </nav>
       <div class="language-switcher" data-language-switcher role="group" aria-label="Article language">
         {languages.map(([language, label]) => <button type="button" data-language-select={language} aria-pressed={language === 'zh'}>{label}</button>)}

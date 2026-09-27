@@ -29,4 +29,4 @@ node scripts/validate-taxonomy.mjs
 npm run validate:runtime
 ```
 
-Production files are generated in `dist/`. Deployment targets `https://seraphforge.github.io/notes.nagi.tw/`; unpublished articles are excluded from routes, indexes, RSS, and sitemap generation.
+Production files are generated in `dist/`. Deployment targets `https://nagi.tw/`; unpublished articles are excluded from routes, indexes, RSS, and sitemap generation.

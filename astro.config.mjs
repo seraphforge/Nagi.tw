@@ -2,8 +2,8 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://seraphforge.github.io',
-  base: '/notes.nagi.tw',
+  site: 'https://nagi.tw',
+  base: '/',
   output: 'static',
   integrations: [sitemap()],
 });
