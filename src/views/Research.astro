@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PortfolioList from '../components/PortfolioList.astro';
+import { profile } from '../i18n/profile';
+import { pageI18n } from '../i18n/helpers';
+const p = profile[pageI18n(Astro.url).locale];
+---
+<BaseLayout title={p.research} description={p.researchIntro}>
+  <header class="container page-intro"><p class="eyebrow">Security · Systems · Research</p><h1>{p.research}</h1><p>{p.researchIntro}</p></header>
+  <section class="container portfolio-section" aria-label={p.research}><PortfolioList kind="research" /></section>
+</BaseLayout>
+<style>.portfolio-section { padding-bottom: var(--space-section); }</style>

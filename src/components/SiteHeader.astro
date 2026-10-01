@@ -1,98 +1,56 @@
 ---
-import { withBase } from '../lib/urls';
-const path = Astro.url.pathname;
-const links = [['/articles/', 'Articles'], ['/topics/', 'Topics'], ['/experience/', 'Experience'], ['/archive/', 'Archive'], ['/about/', 'About']];
-const languages = [['zh', '中'], ['en', 'EN'], ['ja', '日']] as const;
+import ThemeControl from './ThemeControl.astro';
+import { profile } from '../i18n/profile';
+import { pageI18n } from '../i18n/helpers';
+import { localeUrl, locales, languageTags } from '../i18n/routes';
+const { locale, route, t } = pageI18n(Astro.url);
+const links = ['research', 'projects', 'experience', 'articles', 'about'] as const;
+const labelsForLinks = { ...t.nav, research: profile[locale].research, projects: profile[locale].projects };
+const labels = { zh: '中', en: 'EN', ja: '日' };
+const languageNames = { zh: '中文', en: 'English', ja: '日本語' };
 ---
 <header class="header">
   <div class="container nav">
-    <a class="brand" href={withBase('/')}>Nagi <span>Notes</span></a>
-    <button class="menu" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <a class="brand" href={localeUrl(locale)}>nagi.tw</a>
+    <button class="menu" aria-expanded="false" aria-controls="nav-links">{t.nav.menu}</button>
     <div class="nav-cluster">
-      <nav id="nav-links" aria-label="Main navigation">
-        {links.map(([href, label]) => <a href={withBase(href)} aria-current={path.startsWith(withBase(href)) ? 'page' : undefined}>{label}</a>)}
-        <a href={withBase('/')}>nagi.tw ↗</a>
+      <nav id="nav-links" aria-label={t.nav.label}>
+        <a href={localeUrl(locale)} aria-current={route === '/' ? 'page' : undefined}>{profile[locale].home}</a>
+        {links.map((key) => <a href={localeUrl(locale, `/${key}/`)} aria-current={route.startsWith(`/${key}/`) ? 'page' : undefined}>{labelsForLinks[key]}</a>)}
       </nav>
-      <div class="language-switcher" data-language-switcher role="group" aria-label="Article language">
-        {languages.map(([language, label]) => <button type="button" data-language-select={language} aria-pressed={language === 'zh'}>{label}</button>)}
+      <div class="language-switcher" data-language-switcher role="group" aria-label={t.nav.language}>
+        {locales.map((language) => <button type="button" lang={languageTags[language]} data-language-select={language} data-locale-url={localeUrl(language, route)} aria-label={languageNames[language]} title={languageNames[language]} aria-pressed={language === locale}>{labels[language]}</button>)}
       </div>
+      <ThemeControl />
     </div>
   </div>
 </header>
 <script>
   const menuButton = document.querySelector<HTMLButtonElement>('.menu');
   const navigation = document.querySelector<HTMLElement>('#nav-links');
-  const languageButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-language-select]')];
-  const languageOrder = ['zh', 'en', 'ja'] as const;
-  type Language = typeof languageOrder[number];
   menuButton?.addEventListener('click', () => {
     const open = menuButton.getAttribute('aria-expanded') === 'true';
     menuButton.setAttribute('aria-expanded', String(!open));
     navigation?.toggleAttribute('data-open', !open);
   });
-  function storedLanguage(): Language | undefined {
-    try {
-      const stored = localStorage.getItem('nagi-article-language');
-      return languageOrder.includes(stored as Language) ? stored as Language : undefined;
-    } catch { return undefined; }
-  }
-  function storeLanguage(language: Language) {
-    try { localStorage.setItem('nagi-article-language', language); } catch { /* Preference storage is optional. */ }
-  }
-  const hasLanguageContent = document.documentElement.hasAttribute('data-article-page') || Boolean(document.querySelector('[data-language-group]'));
-  for (const button of languageButtons) {
-    button.disabled = !hasLanguageContent;
-    button.title = hasLanguageContent ? 'Article language (page navigation is not translated)' : 'This page has no translated versions';
-  }
-  function requestedLanguage(): Language { return storedLanguage() ?? 'zh'; }
-  function actualLanguage(group: HTMLElement, requested: Language): Language | undefined {
-    const available = new Set([...group.querySelectorAll<HTMLElement>('[data-language-variant]')].map((variant) => variant.dataset.languageVariant as Language));
-    const fallbackOrder: Language[] = [requested, 'zh', 'en', 'ja'];
-    return fallbackOrder.find((language) => available.has(language));
-  }
-  function applyLanguage(requested: Language, persist = true) {
-    if (persist) storeLanguage(requested);
-    document.documentElement.dataset.articleLanguage = requested;
-    for (const button of languageButtons) button.setAttribute('aria-pressed', String(button.dataset.languageSelect === requested));
-    const articleLanguageLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-article-language-link]')];
-    if (document.documentElement.hasAttribute('data-article-page') && articleLanguageLinks.length) {
-      const available = new Map(articleLanguageLinks.map((link) => [link.dataset.articleLanguageLink, link]));
-      const target = available.get(requested) ?? available.get(document.documentElement.dataset.currentArticleLanguage ?? '') ?? available.get('zh') ?? available.get('en') ?? available.get('ja');
-      const actual = target?.dataset.articleLanguageLink as Language | undefined;
-      document.documentElement.dataset.actualLanguage = actual ?? '';
-      document.documentElement.toggleAttribute('data-language-fallback', Boolean(actual && actual !== requested));
-      if (target && target.dataset.articleLanguageLink !== document.documentElement.dataset.currentArticleLanguage) {
-        window.location.assign(target.href);
-        return;
-      }
-    }
-    for (const group of document.querySelectorAll<HTMLElement>('[data-language-group]')) {
-      const actual = actualLanguage(group, requested);
-      group.dataset.actualLanguage = actual ?? '';
-      group.toggleAttribute('data-language-fallback', Boolean(actual && actual !== requested));
-      for (const variant of group.querySelectorAll<HTMLElement>('[data-language-variant]')) variant.hidden = variant.dataset.languageVariant !== actual;
-    }
-    document.dispatchEvent(new CustomEvent('nagi:language', { detail: { requested } }));
-  }
-  for (const button of languageButtons) button.addEventListener('click', () => applyLanguage(button.dataset.languageSelect as Language));
-  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-article-language-link]')) {
-    link.addEventListener('click', () => storeLanguage(link.dataset.articleLanguageLink as Language));
-  }
-  const routeLanguage = document.documentElement.dataset.currentArticleLanguage as Language | undefined;
-  if (routeLanguage && languageOrder.includes(routeLanguage)) {
-    applyLanguage(routeLanguage, false);
-  } else {
-    applyLanguage(hasLanguageContent ? requestedLanguage() : 'zh', false);
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-language-select]')) {
+    button.addEventListener('click', () => {
+      const target = new URL(button.dataset.localeUrl!, location.origin);
+      target.search = location.search;
+      target.hash = location.hash;
+      location.assign(target.href);
+    });
   }
 </script>
 <style>
   .header { position: sticky; top: 0; z-index: 10; border-top: 3px solid var(--accent); border-bottom: 1px solid var(--line); background: var(--paper); }
   .nav { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
-  .brand { display: inline-flex; align-items: baseline; gap: 0.38rem; color: var(--ink); font-family: var(--serif); font-size: 1.2rem; text-decoration: none; }
-  .brand::before { width: 0.48rem; height: 0.48rem; background: var(--accent); content: ""; }
+  .brand { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--ink); font-family: var(--serif); font-size: 1.2rem; text-decoration: none; }
+  .brand { flex-shrink: 0; }
+  .brand img { flex: none; image-rendering: pixelated; }
   .brand span { color: var(--muted-readable); font-family: var(--sans); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .nav-cluster, nav, .language-switcher { display: flex; align-items: center; }
-  .nav-cluster { gap: clamp(1.2rem, 3vw, 3rem); }
+  .nav-cluster { gap: clamp(.5rem, 1.5vw, 1.2rem); }
   nav { gap: clamp(0.9rem, 2vw, 1.55rem); }
   nav a { color: var(--muted-readable); font-size: 0.78rem; font-weight: 650; letter-spacing: 0.045em; text-decoration: none; text-transform: uppercase; }
   nav a[aria-current="page"], nav a:hover { color: var(--ink); }
@@ -100,10 +58,17 @@ const languages = [['zh', '中'], ['en', 'EN'], ['ja', '日']] as const;
   .language-switcher button { min-width: 2.1rem; padding: 0.3rem 0.4rem; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--muted-readable); font: 700 0.72rem/1 var(--sans); cursor: pointer; }
   .language-switcher button[aria-pressed="true"] { border-bottom-color: var(--accent); color: var(--ink); }
   .menu { display: none; padding: 0.35rem 0.6rem; border: 1px solid var(--line); background: none; }
-  @media (max-width: 880px) {
+  @media (max-width: 1150px) {
+    .nav { gap: .75rem; }
     .menu { display: block; }
     .nav-cluster { margin-left: auto; }
-    nav { display: none; position: absolute; top: 60px; right: 16px; left: 16px; padding: 1rem; border: 1px solid var(--line); background: var(--paper); flex-direction: column; align-items: stretch; }
+    nav { display: none; position: absolute; top: 100%; right: 16px; left: 16px; max-height: calc(100dvh - 80px); overflow-y: auto; padding: 1rem; border: 1px solid var(--line); background: var(--paper); flex-direction: column; align-items: stretch; }
     nav[data-open] { display: flex; }
+  }
+  @media (max-width: 600px) {
+    .nav { flex-wrap: wrap; padding-block: .6rem; }
+    .menu { margin-left: auto; }
+    .nav-cluster { flex-basis: 100%; justify-content: flex-end; }
+    .language-switcher { padding-left: 0; border-left: 0; }
   }
 </style>

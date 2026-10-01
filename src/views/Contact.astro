@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageI18n } from '../i18n/helpers';
+const { locale } = pageI18n(Astro.url);
+const copy = {
+  zh: { title: '聯絡', description: '聯絡 Hong Xin-Fu / Nagi。', email: '電子郵件' },
+  en: { title: 'Contact', description: 'Get in touch with Hong Xin-Fu / Nagi.', email: 'Email' },
+  ja: { title: '連絡先', description: 'Hong Xin-Fu / Nagi への連絡先。', email: 'メール' },
+}[locale];
+// Public contact details preserved from the previous primary site's src/data/site.ts.
+---
+<BaseLayout title={copy.title} description={copy.description}>
+  <header class="container page-intro"><h1>{copy.title}</h1><p>{copy.description}</p></header>
+  <div class="container contact"><dl><dt>{copy.email}</dt><dd><a href="mailto:casp3790er@gmail.com">casp3790er@gmail.com</a></dd><dt>GitHub</dt><dd><a href="https://github.com/seraphforge">seraphforge</a></dd></dl></div>
+</BaseLayout>
+<style>.contact { padding-bottom: var(--space-section); } dt { font-weight: 650; } dd { margin: .5rem 0 2rem; }</style>

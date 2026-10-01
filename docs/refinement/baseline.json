@@ -1,0 +1,330 @@
+[
+  {
+    "path": "src/content.config.ts",
+    "sha256": "cee012d9fa2879024f6605190d48bfdd7b6bd618a51a9ab6844a5f09c918fdf3"
+  },
+  {
+    "path": "src/components/ArticleList.astro",
+    "sha256": "9935303780728b9f15c09cb07b89404d342ae92b482aa30e2366d81a0d0697aa"
+  },
+  {
+    "path": "src/components/PortfolioList.astro",
+    "sha256": "bdcb8842e854b359836d1a6e56090e648babe45cd0d49dfc5cc098ac910dad1b"
+  },
+  {
+    "path": "src/components/SiteFooter.astro",
+    "sha256": "3ccb5f7b6cacf6bcf9089a30d1c3c79c083e1fddeed92bf3787e282d4457aff9"
+  },
+  {
+    "path": "src/components/SiteHeader.astro",
+    "sha256": "d78f612855714fbdb99f0a4f2a3477e8d952c2e52e7c973f5c48e96a9bfbd617"
+  },
+  {
+    "path": "src/i18n/helpers.ts",
+    "sha256": "e1708e3dd4f122583fde8fa0f4dde16637b716cdfb25e134d50e1eb93af59762"
+  },
+  {
+    "path": "src/i18n/manifest.ts",
+    "sha256": "8214f4881c2057924a5d3a578b1e247025f3ee3f738700e5f6ab25b04157761b"
+  },
+  {
+    "path": "src/i18n/profile.ts",
+    "sha256": "249fa16b3912c33f4296b14db00e7353e417b66f1865e19810997e1aa000688e"
+  },
+  {
+    "path": "src/i18n/routes.ts",
+    "sha256": "a69a869d5401f76528c43795b5f51687a99654da86fd0e2a57ef176b12ad52e4"
+  },
+  {
+    "path": "src/i18n/topics.ts",
+    "sha256": "dbbcd8f6a87eabf20b8f11c91101aaf6ddb96f817de4d96a20d647972254cf22"
+  },
+  {
+    "path": "src/i18n/ui.ts",
+    "sha256": "1794277367a0258ab4243a1960cb72ef48c531ae89d9f649fd848948b881b318"
+  },
+  {
+    "path": "src/layouts/BaseLayout.astro",
+    "sha256": "25ce3b2f5660b56f555da0ae183679accef4cf61f7489530df1db4baeeadf92a"
+  },
+  {
+    "path": "src/lib/articles.ts",
+    "sha256": "cbb5456fe24c2f937d72cf82cf14934f000ba9acb9b6d55ff80fbe5190d2f18b"
+  },
+  {
+    "path": "src/lib/categories.ts",
+    "sha256": "54d59a6e577ade07d0e3d2ca095f326110f2b87b5b044eb8a6614fa6e7afcea5"
+  },
+  {
+    "path": "src/lib/portfolio.ts",
+    "sha256": "4599b1dc157e208aa4c090edfc318d8ecbd7b55b41b1f9d16fbc5180def524ca"
+  },
+  {
+    "path": "src/lib/rss.mjs",
+    "sha256": "be2b4a49f300e61d0065e6f5baa2129a59a1c953eacfbd05af69b4e3046e5c2e"
+  },
+  {
+    "path": "src/lib/topics.ts",
+    "sha256": "e3a36955ee25e05fc3a9bfcc93f2de24cb64f56ab9bb6578c8c5d0cce4a283af"
+  },
+  {
+    "path": "src/lib/urls.ts",
+    "sha256": "21f4acfa3cb8f910ce1141673ee786f756ebfbfc0653cce01f047c7a5e2b50c1"
+  },
+  {
+    "path": "src/pages/robots.txt.ts",
+    "sha256": "d2cfd65e2abd3f914662961ac4816dc4e0b1844e3098779bcabe0548b765b624"
+  },
+  {
+    "path": "src/pages/rss.xml.js",
+    "sha256": "ca819964f9877dcede676702a132ae21888c589c400f3e7a89f61c0f55cda22c"
+  },
+  {
+    "path": "src/pages/search-index.json.ts",
+    "sha256": "5f41e1dc8c70e8cba98f230caa7fa4d78fcc066a653f6ee56d61e0cb98faacc1"
+  },
+  {
+    "path": "src/pages/[...path].astro",
+    "sha256": "fa5ec3ec6a908e0cad7610f842aab6a341eca000986d4daa42d927b60ecd484d"
+  },
+  {
+    "path": "src/styles/global.css",
+    "sha256": "50708a5b6d16ea1ace27815c4571ddcb0528d78f149503d992332284553213a3"
+  },
+  {
+    "path": "src/views/About.astro",
+    "sha256": "56ca6ba5a7eb8a52cc3f0ebec2048044949ee0d3dab5284fd4b59beea58e2d92"
+  },
+  {
+    "path": "src/views/Archive.astro",
+    "sha256": "59b938ce859119c060fb93d32119e875012fd7171d5e293baf3143cd77a5eda2"
+  },
+  {
+    "path": "src/views/Article.astro",
+    "sha256": "52450542a7c8a1305e03953f8609618699343415372a953d37a319de2898353f"
+  },
+  {
+    "path": "src/views/Articles.astro",
+    "sha256": "1517511b6084db37109c9325e48ca2028ea744a1a2e33e161cf59b63921d23ad"
+  },
+  {
+    "path": "src/views/Contact.astro",
+    "sha256": "284034b20f58cd6a8dce829e37a1641f34940dc91a65343d68225890d3a4962d"
+  },
+  {
+    "path": "src/views/Experience.astro",
+    "sha256": "c9467f078af94e7452b4482f036450c878d923a57f95dcde961504b1e704764d"
+  },
+  {
+    "path": "src/views/Home.astro",
+    "sha256": "f0755fcecf2db67b7c7643fb2dd4d101cab98511572c6ee18f235eac556303e8"
+  },
+  {
+    "path": "src/views/Projects.astro",
+    "sha256": "1aee3c4f06cf051bc49da4bdbca593156c83f152939674db644783382398344d"
+  },
+  {
+    "path": "src/views/Research.astro",
+    "sha256": "08bf7fa941357ef1dc1206947cc9b18190661cf88a79328f094f4b6a69d8c0a8"
+  },
+  {
+    "path": "src/views/Topic.astro",
+    "sha256": "1770622ecfbe71345d1c268503adb6dd3c3aab44bb769bfef9b0481697ef189c"
+  },
+  {
+    "path": "src/views/Topics.astro",
+    "sha256": "93ffb4d84d3c1503d47ce0f213b6b244602ee745cdbc1e2e9081e401cf9dfc5a"
+  },
+  {
+    "path": "scripts/prepare-redirects.py",
+    "sha256": "302f255d2e1202212fc9946e908e8230b64297aa38b36786868af03c9f4cb641"
+  },
+  {
+    "path": "scripts/test-redirects.mjs",
+    "sha256": "a42972aca42f734d18fcf1415b599fb73f9d454dff58ad35d5be7c511586b672"
+  },
+  {
+    "path": "scripts/test-rss.mjs",
+    "sha256": "e9f909c1b8787be8327e6d0b68b1e4292f32cb2fda6be68f6ea81efcc9bcf8db"
+  },
+  {
+    "path": "scripts/validate-base-path.mjs",
+    "sha256": "cf6159d8f245c210e48f0483669a88f690cdc4fb8d9fa9b5efd4340eb04fae25"
+  },
+  {
+    "path": "scripts/validate-build.mjs",
+    "sha256": "2b7be5156cfaadb7a8fbb324627540195d76f80307cb4e14b72acbf090d5b0b6"
+  },
+  {
+    "path": "scripts/validate-i18n.mjs",
+    "sha256": "1558e4ef2b36d0113d48cba3673cdc5bb225c92aedd24104f84b6141ca283d52"
+  },
+  {
+    "path": "scripts/validate-language-runtime.mjs",
+    "sha256": "30460bfbf5d429cf4f422da3f66878bf60a16a5114e8ababb43467a3e80b8562"
+  },
+  {
+    "path": "scripts/validate-language-urls.mjs",
+    "sha256": "7e0c7d308818aa0bbe5b041712ab6faed1b8569ddc0fbd3220dd02e66aea362f"
+  },
+  {
+    "path": "scripts/validate-preproduction.mjs",
+    "sha256": "b5145e07a687e407dfd4d40423ad92e04099c930f004f7549e870979ccba6a52"
+  },
+  {
+    "path": "scripts/validate-preservation.mjs",
+    "sha256": "72a6fbe43248c4e95009fe94f48f4a61699503391225327c8bfd1b17f03c6003"
+  },
+  {
+    "path": "scripts/validate-primary-site.mjs",
+    "sha256": "9bdb616f5d5519626982be0e48c119979da24f69da60aaf5775ea64ba1a9af20"
+  },
+  {
+    "path": "scripts/validate-taxonomy.mjs",
+    "sha256": "d83bbc9db271974b839e778dca80d37c625a3e94c87560265795a8b24cc494e0"
+  },
+  {
+    "path": "scripts/validate-ui.mjs",
+    "sha256": "16d8c82f643c7bd089ed16307258de3afddc8bfa5b6b68568718cd496deef220"
+  },
+  {
+    "path": "articles/ctf/ctf-meets-malware-analysis-windows.en.md",
+    "sha256": "2a469858e327e6d0f456251a1566308b48e6799e8a3f87d0b435cba2d38295dc"
+  },
+  {
+    "path": "articles/ctf/ctf-meets-malware-analysis-windows.ja.md",
+    "sha256": "272602bd4a34bf3a1dbd9621a2e5a11724caaeee4e46ebd4e82fea6c116215b9"
+  },
+  {
+    "path": "articles/ctf/ctf-meets-malware-analysis-windows.md",
+    "sha256": "db97eb9219a1dfd849ff50a3bb33b0f70df5fb2732ab4bc1a1944c5ec2218d46"
+  },
+  {
+    "path": "articles/engineering/.gitkeep",
+    "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "path": "articles/engineering/frc-engineering-team.md",
+    "sha256": "1b9cf72e3b543d552eb719ed4fd9e1ed9a21ba1d8cbee55e6acf04c9cd3a125f"
+  },
+  {
+    "path": "articles/personal/first-hackathon-in-university.md",
+    "sha256": "ff93d4425d7b3074764f956e07ee985976aba08da476e89e214941cd3b33347d"
+  },
+  {
+    "path": "articles/personal/from-nihscsed-to-control-team.en.md",
+    "sha256": "3f99eb115a586028eb28e041cb5c358f71bbcd10f55c00bfcf535e4bc51bbe65"
+  },
+  {
+    "path": "articles/personal/from-nihscsed-to-control-team.ja.md",
+    "sha256": "95b2c5c071dd732796fae11aafd7adc24da0b87c103731369290f7b99a33ffdf"
+  },
+  {
+    "path": "articles/personal/from-nihscsed-to-control-team.md",
+    "sha256": "639ef15f42a12fdaf914f98292366345e53c1bb32e5c5e737ba7dc86fa60ac72"
+  },
+  {
+    "path": "articles/personal/not-everyone-has-to-walk-the-same-road.ja.md",
+    "sha256": "0642787649db92824503f988c1f6754c5cfbe554fef7ca09bc1ee85d9e288016"
+  },
+  {
+    "path": "articles/personal/not-everyone-has-to-walk-the-same-road.md",
+    "sha256": "30df5db924ecce2520e221d4c05c51e3fc4f33b74144628f7374f2001d090ded"
+  },
+  {
+    "path": "articles/personal/prologue-the-people-i-met-along-the-way.ja.md",
+    "sha256": "32cba3a3a211e24b435c5280134b6e005c235dd74a11704b7f13183b12004a75"
+  },
+  {
+    "path": "articles/personal/prologue-the-people-i-met-along-the-way.md",
+    "sha256": "c49d7ae253394ae8ffe432fd6fe13647ac47a281323cf75c926488c21d48a25a"
+  },
+  {
+    "path": "articles/personal/ten-years-from-now-dont-forget-who-you-are-now.ja.md",
+    "sha256": "9b147d8ecad7589ced6025d40ed397471654bd96a55425207aafeaf4713630c9"
+  },
+  {
+    "path": "articles/personal/ten-years-from-now-dont-forget-who-you-are-now.md",
+    "sha256": "dd2741f09eada604a5e4457623804ad73a623358bbeb61283b1345c9e9f1bcd6"
+  },
+  {
+    "path": "articles/personal/why-i-still-use-codex.ja.md",
+    "sha256": "ed296a2ecfa3d7d7cb2aa6924fbf65bd0d12ee8bec70b40a144dc84b53490c9e"
+  },
+  {
+    "path": "articles/personal/why-i-still-use-codex.md",
+    "sha256": "611f1e93951cc8875fd6425bf15021dfd568cc497639bc323680c205d18df021"
+  },
+  {
+    "path": "articles/projects/.gitkeep",
+    "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "path": "articles/projects/recent-projects-and-life-update.md",
+    "sha256": "071538d36d47635baebe3bf2c9bf5dd0dcb8c2073deacdb178510a2a4a3d5e3b"
+  },
+  {
+    "path": "articles/research/infosec-taiwan-2026-student-industry-gap.en.md",
+    "sha256": "6896ea301acecf788a0ea11274a7bdc13e4d76cb5d00a0800be92838c3024efa"
+  },
+  {
+    "path": "articles/research/infosec-taiwan-2026-student-industry-gap.ja.md",
+    "sha256": "4b533851c287eb0e5a6c7b2ea8a9a6f8510fbb66dcbcd8f20193667b9b2ca717"
+  },
+  {
+    "path": "articles/research/infosec-taiwan-2026-student-industry-gap.md",
+    "sha256": "6f6142d4195edf588b09c2dbaf14dab0a06242c798ca3e00f72ba774fda17265"
+  },
+  {
+    "path": "articles/research/nurse-made-me-rethink-medical-cybersecurity.en.md",
+    "sha256": "1171facaa6f6fe75f3330512d659c2e03a619a010ff0c00e71e206fb2fc489f9"
+  },
+  {
+    "path": "articles/research/nurse-made-me-rethink-medical-cybersecurity.ja.md",
+    "sha256": "dba7f688dfee44b34b3589234b9a5268d46b6e8117be2f84df4bf819757cb830"
+  },
+  {
+    "path": "articles/research/nurse-made-me-rethink-medical-cybersecurity.md",
+    "sha256": "c65730cd1a4629449d78ecdcc1719707fcb5d83c6e33b952e5276826a493187e"
+  },
+  {
+    "path": "articles/security/2026-security-conference.en.md",
+    "sha256": "6b51b8d0205e134b7fdb629a26a7bdd7e3bf07af979cb7dde9d0dd2c9c57ce90"
+  },
+  {
+    "path": "articles/security/2026-security-conference.ja.md",
+    "sha256": "62d5fd3a07f5f72c895873891eb2cd25f089d181fd2b6a9b24e60b68978cdb53"
+  },
+  {
+    "path": "articles/security/2026-security-conference.md",
+    "sha256": "d2201e2093f0cd8218ab20fe6cf1e177272fefa9b6f23b07cf8fc9a22b10d6fe"
+  },
+  {
+    "path": "articles/security/retail-work-sme-security-culture.en.md",
+    "sha256": "bc3acad72c68fefacc49e53a5faa236f298c0fbad3f4a506e6be123f9e2804a8"
+  },
+  {
+    "path": "articles/security/retail-work-sme-security-culture.ja.md",
+    "sha256": "0b0d02d425689f8dae5f625aa8ebbff8d6d07d943b7d02cdd99cb90eeebfb584"
+  },
+  {
+    "path": "articles/security/retail-work-sme-security-culture.md",
+    "sha256": "f1ce7d03480748236b9513a286f143c4a219099de83a69a39b5b36021f85f57f"
+  },
+  {
+    "path": "public/nagi-penguin.svg",
+    "sha256": "68ec7f2e623df434cb703eb72e461c782649113776ba98a0f33d2fdac824e40f"
+  },
+  {
+    "path": "public/assets/images/casper.png",
+    "sha256": "b769fdd63634e9cc0b60305d555b1867723ce80d4c83505101422f286948ab63"
+  },
+  {
+    "path": "public/assets/images/cybersec-2026.jpg",
+    "sha256": "a777b2339b9328497a81e416408938f159fbb6331057de1ae982e540308788c6"
+  },
+  {
+    "path": "public/assets/images/seraph.png",
+    "sha256": "b769fdd63634e9cc0b60305d555b1867723ce80d4c83505101422f286948ab63"
+  }
+]

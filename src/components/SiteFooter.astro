@@ -1,11 +1,16 @@
 ---
+import Penguin from './Penguin.astro';
 import { withBase } from '../lib/urls';
+import { localeUrl } from '../i18n/routes';
+import { pageI18n } from '../i18n/helpers';
+const { locale, t } = pageI18n(Astro.url);
+const contactLabel = { zh: '聯絡', en: 'Contact', ja: '連絡先' }[locale];
 ---
 
 <footer>
   <div class="container">
-    <span>© {new Date().getFullYear()} Nagi.tw</span>
-    <nav aria-label="Footer"><a href="https://github.com/seraphforge">GitHub</a><a href={withBase('/')}>Notes</a><a href={withBase('/')}>Nagi.tw</a></nav>
+    <div><Penguin /><span>© {new Date().getFullYear()} Nagi.tw</span></div>
+    <nav aria-label={t.footer.label}><a href="https://github.com/seraphforge">GitHub</a><a href={localeUrl(locale, '/topics/')}>{t.nav.topics}</a><a href={localeUrl(locale, '/archive/')}>{t.nav.archive}</a><a href={localeUrl(locale, '/contact/')}>{contactLabel}</a><a href={withBase('/rss.xml')}>RSS</a></nav>
   </div>
 </footer>
 
@@ -13,7 +18,7 @@ import { withBase } from '../lib/urls';
   footer { position: relative; border-top: 1px solid var(--line); padding: 2.5rem 0; color: var(--muted-readable); font-size: 0.78rem; letter-spacing: 0.035em; }
   footer::before { position: absolute; top: -1px; left: max(24px, calc((100% - var(--page)) / 2)); width: 4rem; height: 3px; background: var(--accent); content: ""; }
   footer .container { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; align-items: end; }
-  nav { display: flex; gap: 1.2rem; }
+  nav { display: flex; flex-wrap: wrap; gap: 1.2rem; }
   a { color: inherit; }
   @media (max-width: 520px) { footer .container { grid-template-columns: 1fr; } nav { margin-top: 0.8rem; } }
 </style>

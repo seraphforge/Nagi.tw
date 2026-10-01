@@ -1,0 +1,38 @@
+---
+import { pageI18n } from '../i18n/helpers';
+import { localeUrl } from '../i18n/routes';
+const { locale, t } = pageI18n(Astro.url);
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublicArticleGroups } from '../lib/articles';
+import { localizedTopic } from '../i18n/topics';
+import { visibleTopics } from '../lib/topics';
+
+const groups = await getPublicArticleGroups();
+const topics = visibleTopics(groups);
+---
+
+<BaseLayout title={t.topics.title} description={t.topics.description}>
+  <header class="container page-intro">
+    <p class="eyebrow">{t.topics.eyebrow}</p>
+    <h1>{t.topics.title}</h1>
+    <p>{t.topics.intro} <a href={localeUrl(locale, '/articles/')}>{t.nav.articles}</a>{t.topics.end}</p>
+  </header>
+  <section class="container topics-section" aria-label={t.topics.title}>
+    <div class="practice-list">
+      {topics.map((topic, index) => (
+        <a class="practice-row" href={localeUrl(locale, `/topics/${topic.slug}/`)}>
+          <span class="practice-number">{String(index + 1).padStart(2, '0')}</span>
+          <h2>{localizedTopic(topic.slug, topic.title, locale)}</h2>
+          <p>{t.topics.related}</p>
+          <span class="practice-count">
+            {topic.groups.length} {t.common.notes}
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .topics-section { padding-bottom: var(--space-section); }
+</style>

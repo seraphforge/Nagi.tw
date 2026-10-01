@@ -1,0 +1,138 @@
+[
+  {
+    "path": "articles/ctf/ctf-meets-malware-analysis-windows.en.md",
+    "sha256": "2a469858e327e6d0f456251a1566308b48e6799e8a3f87d0b435cba2d38295dc"
+  },
+  {
+    "path": "articles/ctf/ctf-meets-malware-analysis-windows.ja.md",
+    "sha256": "272602bd4a34bf3a1dbd9621a2e5a11724caaeee4e46ebd4e82fea6c116215b9"
+  },
+  {
+    "path": "articles/ctf/ctf-meets-malware-analysis-windows.md",
+    "sha256": "db97eb9219a1dfd849ff50a3bb33b0f70df5fb2732ab4bc1a1944c5ec2218d46"
+  },
+  {
+    "path": "articles/engineering/.gitkeep",
+    "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "path": "articles/engineering/frc-engineering-team.md",
+    "sha256": "1b9cf72e3b543d552eb719ed4fd9e1ed9a21ba1d8cbee55e6acf04c9cd3a125f"
+  },
+  {
+    "path": "articles/personal/first-hackathon-in-university.md",
+    "sha256": "ff93d4425d7b3074764f956e07ee985976aba08da476e89e214941cd3b33347d"
+  },
+  {
+    "path": "articles/personal/from-nihscsed-to-control-team.en.md",
+    "sha256": "3f99eb115a586028eb28e041cb5c358f71bbcd10f55c00bfcf535e4bc51bbe65"
+  },
+  {
+    "path": "articles/personal/from-nihscsed-to-control-team.ja.md",
+    "sha256": "95b2c5c071dd732796fae11aafd7adc24da0b87c103731369290f7b99a33ffdf"
+  },
+  {
+    "path": "articles/personal/from-nihscsed-to-control-team.md",
+    "sha256": "639ef15f42a12fdaf914f98292366345e53c1bb32e5c5e737ba7dc86fa60ac72"
+  },
+  {
+    "path": "articles/personal/not-everyone-has-to-walk-the-same-road.ja.md",
+    "sha256": "0642787649db92824503f988c1f6754c5cfbe554fef7ca09bc1ee85d9e288016"
+  },
+  {
+    "path": "articles/personal/not-everyone-has-to-walk-the-same-road.md",
+    "sha256": "30df5db924ecce2520e221d4c05c51e3fc4f33b74144628f7374f2001d090ded"
+  },
+  {
+    "path": "articles/personal/prologue-the-people-i-met-along-the-way.ja.md",
+    "sha256": "32cba3a3a211e24b435c5280134b6e005c235dd74a11704b7f13183b12004a75"
+  },
+  {
+    "path": "articles/personal/prologue-the-people-i-met-along-the-way.md",
+    "sha256": "c49d7ae253394ae8ffe432fd6fe13647ac47a281323cf75c926488c21d48a25a"
+  },
+  {
+    "path": "articles/personal/ten-years-from-now-dont-forget-who-you-are-now.ja.md",
+    "sha256": "9b147d8ecad7589ced6025d40ed397471654bd96a55425207aafeaf4713630c9"
+  },
+  {
+    "path": "articles/personal/ten-years-from-now-dont-forget-who-you-are-now.md",
+    "sha256": "dd2741f09eada604a5e4457623804ad73a623358bbeb61283b1345c9e9f1bcd6"
+  },
+  {
+    "path": "articles/personal/why-i-still-use-codex.ja.md",
+    "sha256": "ed296a2ecfa3d7d7cb2aa6924fbf65bd0d12ee8bec70b40a144dc84b53490c9e"
+  },
+  {
+    "path": "articles/personal/why-i-still-use-codex.md",
+    "sha256": "611f1e93951cc8875fd6425bf15021dfd568cc497639bc323680c205d18df021"
+  },
+  {
+    "path": "articles/projects/.gitkeep",
+    "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "path": "articles/projects/recent-projects-and-life-update.md",
+    "sha256": "071538d36d47635baebe3bf2c9bf5dd0dcb8c2073deacdb178510a2a4a3d5e3b"
+  },
+  {
+    "path": "articles/research/infosec-taiwan-2026-student-industry-gap.en.md",
+    "sha256": "6896ea301acecf788a0ea11274a7bdc13e4d76cb5d00a0800be92838c3024efa"
+  },
+  {
+    "path": "articles/research/infosec-taiwan-2026-student-industry-gap.ja.md",
+    "sha256": "4b533851c287eb0e5a6c7b2ea8a9a6f8510fbb66dcbcd8f20193667b9b2ca717"
+  },
+  {
+    "path": "articles/research/infosec-taiwan-2026-student-industry-gap.md",
+    "sha256": "6f6142d4195edf588b09c2dbaf14dab0a06242c798ca3e00f72ba774fda17265"
+  },
+  {
+    "path": "articles/research/nurse-made-me-rethink-medical-cybersecurity.en.md",
+    "sha256": "1171facaa6f6fe75f3330512d659c2e03a619a010ff0c00e71e206fb2fc489f9"
+  },
+  {
+    "path": "articles/research/nurse-made-me-rethink-medical-cybersecurity.ja.md",
+    "sha256": "dba7f688dfee44b34b3589234b9a5268d46b6e8117be2f84df4bf819757cb830"
+  },
+  {
+    "path": "articles/research/nurse-made-me-rethink-medical-cybersecurity.md",
+    "sha256": "c65730cd1a4629449d78ecdcc1719707fcb5d83c6e33b952e5276826a493187e"
+  },
+  {
+    "path": "articles/security/2026-security-conference.en.md",
+    "sha256": "6b51b8d0205e134b7fdb629a26a7bdd7e3bf07af979cb7dde9d0dd2c9c57ce90"
+  },
+  {
+    "path": "articles/security/2026-security-conference.ja.md",
+    "sha256": "62d5fd3a07f5f72c895873891eb2cd25f089d181fd2b6a9b24e60b68978cdb53"
+  },
+  {
+    "path": "articles/security/2026-security-conference.md",
+    "sha256": "d2201e2093f0cd8218ab20fe6cf1e177272fefa9b6f23b07cf8fc9a22b10d6fe"
+  },
+  {
+    "path": "articles/security/retail-work-sme-security-culture.en.md",
+    "sha256": "bc3acad72c68fefacc49e53a5faa236f298c0fbad3f4a506e6be123f9e2804a8"
+  },
+  {
+    "path": "articles/security/retail-work-sme-security-culture.ja.md",
+    "sha256": "0b0d02d425689f8dae5f625aa8ebbff8d6d07d943b7d02cdd99cb90eeebfb584"
+  },
+  {
+    "path": "articles/security/retail-work-sme-security-culture.md",
+    "sha256": "f1ce7d03480748236b9513a286f143c4a219099de83a69a39b5b36021f85f57f"
+  },
+  {
+    "path": "public/assets/images/casper.png",
+    "sha256": "b769fdd63634e9cc0b60305d555b1867723ce80d4c83505101422f286948ab63"
+  },
+  {
+    "path": "public/assets/images/cybersec-2026.jpg",
+    "sha256": "a777b2339b9328497a81e416408938f159fbb6331057de1ae982e540308788c6"
+  },
+  {
+    "path": "public/assets/images/seraph.png",
+    "sha256": "b769fdd63634e9cc0b60305d555b1867723ce80d4c83505101422f286948ab63"
+  }
+]

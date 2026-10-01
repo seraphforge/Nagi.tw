@@ -1,0 +1,24 @@
+---
+import { pageI18n } from '../i18n/helpers';
+const { t } = pageI18n(Astro.url);
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleList from '../components/ArticleList.astro';
+import { getPublicArticleGroups } from '../lib/articles';
+
+const groups = await getPublicArticleGroups();
+---
+
+<BaseLayout title={t.articles.title} description={t.articles.description}>
+  <header class="container page-intro">
+    <p class="eyebrow">{t.articles.eyebrow} · {groups.length} {t.common.notes}</p>
+    <h1>{t.articles.title}</h1>
+    <p>{t.articles.description}</p>
+  </header>
+  <section class="container articles-section">
+    <ArticleList groups={groups} filterable />
+  </section>
+</BaseLayout>
+
+<style>
+  .articles-section { padding-bottom: var(--space-section); }
+</style>

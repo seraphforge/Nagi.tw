@@ -1,0 +1,91 @@
+---
+import { additionalExperience, type ExperienceCategory } from '../lib/experience';
+import { pageI18n } from '../i18n/helpers';
+import { localeUrl } from '../i18n/routes';
+const { locale, t } = pageI18n(Astro.url);
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Merge hardcoded events (from ui.ts) with additional entries (from experience.ts)
+const slugs = ['frc-engineering-team', 'infosec-taiwan-2026-student-industry-gap', '2026-security-conference'];
+type EventItem = {
+  id: string;
+  year?: string;
+  article?: string;
+  category: ExperienceCategory;
+  name: string;
+  role: string;
+};
+const allEvents: EventItem[] = [
+  ...t.experience.events.map((event, index) => ({
+    ...event,
+    id: slugs[index]!,
+    year: '2026',
+    article: slugs[index],
+    category: event.category as ExperienceCategory,
+  })),
+  ...additionalExperience.map(entry => ({
+    id: entry.id,
+    year: entry.year,
+    article: entry.article,
+    category: entry.category,
+    name: entry.copy[locale].name,
+    role: entry.copy[locale].role,
+  })),
+];
+
+// Section order
+const sectionOrder: ExperienceCategory[] = ['competitions', 'training', 'conferences', 'leadership'];
+
+// Group events by category; keep insertion order within each group (newest first by year when available)
+function groupByCategory(events: EventItem[]) {
+  const groups = new Map<ExperienceCategory, EventItem[]>();
+  for (const cat of sectionOrder) groups.set(cat, []);
+  for (const event of events) {
+    groups.get(event.category)?.push(event);
+  }
+  return groups;
+}
+const groups = groupByCategory(allEvents);
+---
+<BaseLayout title={t.experience.title} description={t.experience.description}>
+  <header class="container page-intro">
+    <p class="eyebrow">{t.experience.eyebrow}</p>
+    <h1>{t.experience.title}</h1>
+    <p>{t.experience.intro}</p>
+  </header>
+  <div class="container experience-sections">
+    {sectionOrder.map((cat) => {
+      const entries = groups.get(cat) ?? [];
+      if (entries.length === 0) return null;
+      return (
+        <section class="experience-group" aria-label={t.experience.sections[cat]}>
+          <h2>{t.experience.sections[cat]}</h2>
+          <ol>
+            {entries.map((event) => (
+              <li data-experience-id={event.id}>
+                {event.year && <p class="eyebrow">{event.year}</p>}
+                <h3>{event.name}</h3>
+                <p>{event.role}</p>
+                {event.article && (
+                  <a href={localeUrl(locale, `/articles/${event.article}/`)}>{t.experience.read}</a>
+                )}
+              </li>
+            ))}
+          </ol>
+        </section>
+      );
+    })}
+  </div>
+</BaseLayout>
+<style>
+  .experience-sections { padding-bottom: var(--space-section); }
+  .experience-group { margin-top: 2.5rem; }
+  .experience-group:first-child { margin-top: 0; }
+  h2 { font-size: clamp(1rem, 2vw, 1.2rem); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-readable); margin: 0 0 0.5rem; border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; }
+  ol { padding: 0; list-style: none; margin: 0; }
+  li { padding: 1.25rem 0; border-top: 1px solid var(--line); }
+  li:first-child { border-top: none; }
+  h3 { margin: 0.4rem 0; font-size: clamp(1.15rem, 2.5vw, 1.5rem); }
+  p { max-width: 65ch; margin: 0.4rem 0 0; }
+  a { font-size: 0.85rem; color: var(--muted-readable); }
+</style>

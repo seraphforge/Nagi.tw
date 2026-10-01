@@ -1,4 +1,4 @@
-import { withBase } from './urls';
+import { articleUrl } from '../i18n/routes';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Topic } from './topics';
 import type { Category } from './categories';
@@ -26,7 +26,7 @@ export function normalize(entry: CollectionEntry<'articles'>): Article {
   const routeSlug = entry.data.slug ?? stem.replace(suffix, '');
   const key = entry.data.translation_key ?? stem.replace(suffix, '');
   const topic = entry.id.split('/')[0] as Topic;
-  const href = withBase(`/articles/${routeSlug}/${language === 'zh' ? '' : `${language}/`}`);
+  const href = articleUrl(language, routeSlug);
   return Object.assign(entry, { topic, category: entry.data.categories[0], language, key, routeSlug, href });
 }
 
@@ -52,6 +52,10 @@ export function groupArticles(articles: Article[]): ArticleGroup[] {
     }
     const availableLanguages = languageOrder.filter((language) => Boolean(variants[language]));
     const primary = variants.zh ?? variants.en ?? variants.ja!;
+    for (const edition of editions) {
+      edition.routeSlug = primary.routeSlug;
+      edition.href = articleUrl(edition.language, primary.routeSlug);
+    }
     return { key, topic: primary.topic, category: primary.category, variants, availableLanguages, primary };
   });
 }

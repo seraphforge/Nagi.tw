@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleList from '../components/ArticleList.astro';
+import PortfolioList from '../components/PortfolioList.astro';
+import { getPublicArticleGroups } from '../lib/articles';
+import { pageI18n } from '../i18n/helpers';
+import { localeUrl } from '../i18n/routes';
+import { profile } from '../i18n/profile';
+const { locale, t } = pageI18n(Astro.url);
+const p = profile[locale];
+const recent = (await getPublicArticleGroups()).slice(0, 3);
+---
+<BaseLayout title="Hong Xin-Fu / Nagi" description={p.intro}>
+  <header class="container page-intro identity-intro">
+    <p class="eyebrow">Security · Systems · Research</p>
+    <h1>Hong Xin-Fu / Nagi</h1><p>{p.intro}</p>
+  </header>
+  <div class="container primary-home">
+    <section aria-labelledby="currently" class="currently"><h2 id="currently">{p.currently}</h2><p>{p.current}</p><p class="muted">{p.asOf} · <a href={localeUrl(locale, '/articles/recent-projects-and-life-update/')}>{p.evidence}</a></p></section>
+    <section aria-labelledby="featured-research"><div class="section-head"><h2 id="featured-research">{p.featuredResearch}</h2><a href={localeUrl(locale, '/research/')}>{p.more}</a></div><PortfolioList kind="research" featured /></section>
+    <section aria-labelledby="featured-projects"><div class="section-head"><h2 id="featured-projects">{p.featuredProjects}</h2><a href={localeUrl(locale, '/projects/')}>{p.more}</a></div><PortfolioList kind="projects" featured /></section>
+    <section aria-labelledby="recent-articles"><div class="section-head"><h2 id="recent-articles">{t.home.latest}</h2><a href={localeUrl(locale, '/articles/')}>{t.home.viewAll}</a></div><ArticleList groups={recent} /></section>
+    <section aria-labelledby="experience-preview"><div class="section-head"><h2 id="experience-preview">{p.experience}</h2><a href={localeUrl(locale, '/experience/')}>{p.more}</a></div><ul class="experience-preview">{t.experience.events.slice(0, 2).map(event => <li><h3>{event.name}</h3><p>{event.role}</p></li>)}</ul></section>
+  </div>
+</BaseLayout>
+<style>
+  .identity-intro { padding-top: 3rem; padding-bottom: 2.5rem; }
+  .identity-intro h1 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); }
+  .primary-home { padding-bottom: var(--space-section); }
+  .primary-home > section { margin-bottom: 3rem; }
+  .currently { border-left: 3px solid var(--accent); padding: .5rem 1.5rem; background: var(--ice); }
+  .currently h2 { font-size: 1.2rem; }
+  .section-head { flex-wrap: wrap; gap: .75rem; align-items: baseline; }
+  .section-head h2 { font-size: clamp(1.25rem, 2.5vw, 1.6rem); }
+  .experience-preview { list-style: none; padding: 0; }
+  .experience-preview li { border-top: 1px solid var(--line); padding: 1rem 0; }
+</style>

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleList from '../components/ArticleList.astro';
+import { pageI18n } from '../i18n/helpers';
+import { localeUrl } from '../i18n/routes';
+import { localizedTopic } from '../i18n/topics';
+import type { ArticleGroup } from '../lib/articles';
+interface Props { topic: { slug: string; title: string; groups: ArticleGroup[]; legacy: boolean } }
+const { topic } = Astro.props;
+const { locale, t } = pageI18n(Astro.url);
+const { groups, legacy } = topic;
+const title = localizedTopic(topic.slug, topic.title, locale);
+---
+<BaseLayout title={title} description={legacy ? t.topics.legacyDescription : t.topics.description}>
+  <header class="container page-intro topic-intro">
+    <p class="eyebrow">{legacy ? t.topics.legacy : t.topics.topic} · {groups.length} {t.common.notes}</p>
+    <h1>{title}</h1>
+    <p>{legacy ? t.topics.legacyDescription : t.topics.description} <a href={localeUrl(locale, '/articles/')}>{t.topics.browse}</a></p>
+  </header>
+  <section class="container topic-index">
+    <div class="index-heading"><span>{t.common.published}</span><span>{t.common.newest}</span></div>
+    <ArticleList groups={groups} />
+  </section>
+</BaseLayout>
+<style>
+  .topic-index { padding-bottom: var(--space-section); }
+  .index-heading {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.8rem;
+    color: var(--muted-readable);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>

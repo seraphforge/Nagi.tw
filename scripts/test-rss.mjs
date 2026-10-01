@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { resilientFeed } from '../src/lib/rss.mjs';
+let diagnostic;
+const response = await resilientFeed(async () => { throw new Error('serializer failed'); }, (message) => { diagnostic = message; });
+assert.equal(response.status, 200);
+assert.match(response.headers.get('content-type'), /xml/);
+assert.match(await response.text(), /<link>https:\/\/nagi.tw\/<\/link>/);
+assert.match(diagnostic, /serializer failed/);
+const expected = new Response('<rss/>');
+assert.equal(await resilientFeed(async () => expected), expected);
+console.log('RSS failure isolation and successful response: PASS');

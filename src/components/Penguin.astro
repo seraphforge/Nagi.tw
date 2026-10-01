@@ -1,0 +1,25 @@
+---
+import { withBase } from '../lib/urls';
+import { pageI18n } from '../i18n/helpers';
+const { locale } = pageI18n(Astro.url);
+const label = { zh: '切換企鵝問候', en: 'Toggle penguin greeting', ja: 'ペンギンの挨拶を表示・非表示' }[locale];
+---
+<div class="penguin-signature">
+  <button type="button" data-penguin-toggle aria-label={label} aria-expanded="false" aria-controls="penguin-greeting"><img src={withBase('/nagi-penguin.svg')} width="36" height="36" alt="" /></button>
+  <span id="penguin-greeting" role="status" lang="en" hidden>Hello, world!</span>
+</div>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('[data-penguin-toggle]');
+  const greeting = document.querySelector<HTMLElement>('#penguin-greeting');
+  button?.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(open));
+    if (greeting) greeting.hidden = !open;
+  });
+</script>
+<style>
+.penguin-signature { display: flex; align-items: center; gap: .6rem; min-height: 44px; }
+button { display: grid; place-items: center; padding: 4px; min-width: 44px; min-height: 44px; background: #F7F8F6; border: 0; border-radius: 50%; cursor: pointer; }
+img { display: block; width: 36px; height: 36px; image-rendering: pixelated; }
+span { padding: .35rem .6rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: .8rem var(--mono); }
+</style>

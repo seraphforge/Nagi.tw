@@ -21,21 +21,21 @@ for (const file of walk(articleRoot).filter((file) => /\.mdx?$/.test(file))) {
   publicLogicalTopics.add(logicalTopic);
   const language = /\.en\.mdx?$/.test(file) ? 'en' : /\.ja\.mdx?$/.test(file) ? 'ja' : 'zh';
   const slug = value(source, 'slug') ?? stem;
-  const route = join(dist, 'articles', slug, language === 'zh' ? '' : language, 'index.html');
+  const route = join(dist, language === 'zh' ? '' : language, 'articles', slug, 'index.html');
   routes.push(route);
   languages[language]++;
   if (!existsSync(route)) failures.push(`missing article route: ${route}`);
 }
 
 const unpublishedLogicalTopics = [...allLogicalTopics].filter((key) => !publicLogicalTopics.has(key));
-if (allLogicalTopics.size !== 13) failures.push(`expected 13 retained logical topics, found ${allLogicalTopics.size}`);
-if (publicLogicalTopics.size !== 12) failures.push(`expected 12 public logical topics, found ${publicLogicalTopics.size}`);
+if (allLogicalTopics.size !== 12) failures.push(`expected 12 retained logical topics, found ${allLogicalTopics.size}`);
+if (publicLogicalTopics.size !== 11) failures.push(`expected 11 public logical topics, found ${publicLogicalTopics.size}`);
 if (unpublishedLogicalTopics.sort().join(',') !== 'from-nihscsed-to-control-team') {
   failures.push(`unexpected unpublished logical topics: ${unpublishedLogicalTopics.join(',')}`);
 }
 
-if (routes.length !== 26) failures.push(`expected 26 public article editions, found ${routes.length}`);
-if (languages.zh !== 12 || languages.en !== 5 || languages.ja !== 9) failures.push(`language route counts: ${JSON.stringify(languages)}`);
+if (routes.length !== 24) failures.push(`expected 24 public article editions, found ${routes.length}`);
+if (languages.zh !== 11 || languages.en !== 5 || languages.ja !== 8) failures.push(`language route counts: ${JSON.stringify(languages)}`);
 if (existsSync(join(dist, 'articles', 'from-nihscsed-to-control-team'))) failures.push('excluded article route exists');
 
 for (const route of ['index.html', 'articles/index.html', 'topics/index.html', 'archive/index.html', 'about/index.html', 'experience/index.html', 'rss.xml', 'search-index.json', 'sitemap-index.xml']) {
@@ -49,7 +49,7 @@ for (const image of ['casper.png', 'cybersec-2026.jpg', 'seraph.png']) {
 }
 
 const search = JSON.parse(readFileSync(join(dist, 'search-index.json'), 'utf8'));
-if (search.length !== 12) failures.push(`search index expected 12 logical topics, found ${search.length}`);
+if (search.length !== 11) failures.push(`search index expected 11 logical topics, found ${search.length}`);
 if (search.some((item) => JSON.stringify(item.variants).includes('from-nihscsed'))) failures.push('excluded article in search index');
 if (new Set(search.map((item) => item.key)).size !== search.length) failures.push('duplicate logical topics in search index');
 for (const item of search) {

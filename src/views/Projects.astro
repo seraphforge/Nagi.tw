@@ -1,0 +1,15 @@
+---
+import { localeUrl } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PortfolioList from '../components/PortfolioList.astro';
+import { profile } from '../i18n/profile';
+import { pageI18n } from '../i18n/helpers';
+const { locale } = pageI18n(Astro.url);
+const p = profile[locale];
+const collaboration = { zh: '如果你對其中任何專案有興趣，歡迎聯絡我一起合作。', en: "If you're interested in any of these projects, feel free to reach out and collaborate.", ja: '気になるプロジェクトがあれば、お気軽にご連絡ください。一緒に取り組めたらうれしいです。' }[locale];
+---
+<BaseLayout title={p.projects} description={p.projectsIntro}>
+  <header class="container page-intro"><p class="eyebrow">Security · Systems · Research</p><h1>{p.projects}</h1><p>{p.projectsIntro}</p></header>
+  <section class="container portfolio-section" aria-label={p.projects}><PortfolioList kind="projects" /><p class="collaboration"><a href={localeUrl(locale, '/contact/')}>{collaboration}</a></p></section>
+</BaseLayout>
+<style>.portfolio-section { padding-bottom: var(--space-section); }.collaboration { margin-top: 2rem; max-width: 65ch; font-size: .9rem; } .collaboration a { color: var(--muted-readable); }</style>

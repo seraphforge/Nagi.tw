@@ -1,0 +1,18 @@
+---
+import { siteRoutes } from '../i18n/manifest';
+import Research from '../views/Research.astro';
+import Contact from '../views/Contact.astro';
+import Projects from '../views/Projects.astro';
+import Home from '../views/Home.astro';
+import About from '../views/About.astro';
+import Experience from '../views/Experience.astro';
+import Articles from '../views/Articles.astro';
+import Archive from '../views/Archive.astro';
+import Topics from '../views/Topics.astro';
+import Topic from '../views/Topic.astro';
+import Article from '../views/Article.astro';
+export const getStaticPaths = siteRoutes;
+const views = { Home, About, Contact, Experience, Articles, Archive, Topics, Research, Projects };
+const View = views[Astro.props.view as keyof typeof views];
+---
+<>{Astro.props.group ? <Article group={Astro.props.group} groups={Astro.props.groups} /> : Astro.props.topic ? <Topic topic={Astro.props.topic} /> : <View />}</>

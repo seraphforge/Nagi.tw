@@ -1,13 +1,16 @@
 import { withBase } from '../lib/urls';
 import rss from '@astrojs/rss';
-import { getPublicArticles } from '../lib/articles';
+import { resilientFeed } from '../lib/rss.mjs';
+import { getPublicArticleGroups } from '../lib/articles';
 export async function GET(context) {
-  const items = (await getPublicArticles()).map((article) => ({
+  return resilientFeed(async () => {
+  const items = (await getPublicArticleGroups()).flatMap((group) => group.availableLanguages.map((language) => group.variants[language])).map((article) => ({
     title: article.data.title,
     description: article.data.description ?? '',
     pubDate: article.data.date,
     link: article.href,
     categories: [article.category, ...article.data.tags],
   }));
-  return rss({ title: 'Nagi Notes', description: 'Life, Security, Projects, Research — and things worth keeping.', site: new URL(withBase('/'), context.site), items });
+  return rss({ title: 'Nagi.tw', description: 'Hong Xin-Fu / Nagi — Security · Systems · Research. Articles and notes.', site: new URL(withBase('/'), context.site), items });
+  });
 }

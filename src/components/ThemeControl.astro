@@ -1,0 +1,22 @@
+<div class="theme-control" role="group" aria-label="Color theme">
+  <button type="button" data-theme-select="light" aria-pressed="true">Light</button>
+  <button type="button" data-theme-select="dark" aria-pressed="false">Dark</button>
+</div>
+<script>
+  const controls = document.querySelectorAll<HTMLButtonElement>('[data-theme-select]');
+  function selectTheme(value: string) {
+    document.documentElement.dataset.theme = value;
+    for (const button of controls) button.setAttribute('aria-pressed', String(button.dataset.themeSelect === value));
+  }
+  selectTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+  for (const button of controls) button.addEventListener('click', () => {
+    const value = button.dataset.themeSelect!;
+    selectTheme(value);
+    try { localStorage.setItem('nagi-theme', value); } catch { /* In-memory switching still works. */ }
+  });
+</script>
+<style>
+.theme-control { display: flex; gap: .15rem; }
+button { min-height: 44px; padding: .25rem .3rem; border: 0; background: transparent; color: var(--muted-readable); font: .7rem var(--sans); cursor: pointer; }
+button[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-underline-offset: .3em; }
+</style>

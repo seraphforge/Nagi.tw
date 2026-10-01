@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageI18n } from '../i18n/helpers';
+import { localeUrl } from '../i18n/routes';
+const { locale, t } = pageI18n(Astro.url);
+---
+<BaseLayout title={t.about.title} description={t.about.description}>
+  <article class="container about">
+    <p class="eyebrow">{t.about.eyebrow}</p>
+    <h1>{t.about.heading}</h1>
+    <p>Hong Xin-Fu / Nagi · Security · Systems · Research</p>
+    <p class="motto">{t.about.motto}</p>
+    <div class="prose">
+      {t.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <p>{t.about.experience} <a href={localeUrl(locale, '/experience/')}>{t.nav.experience}</a>{t.about.home} <a href={localeUrl(locale, '/articles/')}>{t.nav.articles}</a>{t.about.end}</p>
+    </div>
+  </article>
+</BaseLayout>
+<style>
+  .about { padding: clamp(2rem, 4vw, 3.5rem) 0 var(--space-section); border-top: 3px solid var(--accent); }
+  .about h1 { margin: 0.5rem 0 1rem; font-size: clamp(1.5rem, 3vw, 2rem); max-width: 32ch; }
+  .motto { max-width: var(--reading); padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--line); font-family: var(--serif); font-size: clamp(1rem, 2vw, 1.2rem); }
+</style>

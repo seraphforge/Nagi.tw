@@ -1,0 +1,146 @@
+[
+  {
+    "status": "modified",
+    "path": "src/components/ArticleList.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/components/PortfolioList.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/components/SiteFooter.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/components/SiteHeader.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/i18n/manifest.ts"
+  },
+  {
+    "status": "modified",
+    "path": "src/i18n/profile.ts"
+  },
+  {
+    "status": "modified",
+    "path": "src/i18n/topics.ts"
+  },
+  {
+    "status": "modified",
+    "path": "src/layouts/BaseLayout.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/lib/portfolio.ts"
+  },
+  {
+    "status": "modified",
+    "path": "src/lib/topics.ts"
+  },
+  {
+    "status": "modified",
+    "path": "src/styles/global.css"
+  },
+  {
+    "status": "modified",
+    "path": "src/views/About.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/views/Archive.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/views/Article.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/views/Experience.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/views/Home.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/views/Projects.astro"
+  },
+  {
+    "status": "modified",
+    "path": "src/views/Topics.astro"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/prepare-redirects.py"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/validate-build.mjs"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/validate-i18n.mjs"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/validate-language-runtime.mjs"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/validate-language-urls.mjs"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/validate-preproduction.mjs"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/validate-preservation.mjs"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/validate-primary-site.mjs"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/validate-taxonomy.mjs"
+  },
+  {
+    "status": "modified",
+    "path": "scripts/validate-ui.mjs"
+  },
+  {
+    "status": "deleted",
+    "path": "articles/personal/why-i-still-use-codex.ja.md"
+  },
+  {
+    "status": "deleted",
+    "path": "articles/personal/why-i-still-use-codex.md"
+  },
+  {
+    "status": "added",
+    "path": "src/components/Penguin.astro"
+  },
+  {
+    "status": "added",
+    "path": "src/components/ThemeControl.astro"
+  },
+  {
+    "status": "added",
+    "path": "src/lib/experience.ts"
+  },
+  {
+    "status": "added",
+    "path": "scripts/audit-articles.mjs"
+  },
+  {
+    "status": "added",
+    "path": "scripts/validate-refinement.mjs"
+  },
+  {
+    "status": "added",
+    "path": "public/favicon.svg"
+  }
+]

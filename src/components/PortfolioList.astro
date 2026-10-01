@@ -1,0 +1,30 @@
+---
+import { getPublicArticleGroups, selectArticleLanguage } from '../lib/articles';
+import { publicPortfolio } from '../lib/portfolio';
+import { profile } from '../i18n/profile';
+import { pageI18n } from '../i18n/helpers';
+import { articleUrl } from '../i18n/routes';
+interface Props { kind: 'research' | 'projects'; featured?: boolean }
+const { kind, featured = false } = Astro.props;
+const { locale } = pageI18n(Astro.url);
+const p = profile[locale];
+const entries = publicPortfolio(await getPublicArticleGroups(), kind, featured);
+---
+<div class="portfolio-list">
+  {entries.map(entry => {
+    const copy = entry.copy[locale];
+    return <article id={entry.id} class="portfolio-entry">
+      <h2>{copy.title}</h2>
+      <p class="portfolio-meta">{entry.area} · {copy.status}</p>
+      <p>{copy.summary}</p>
+      {entry.href && <p><a class="record-link" href={entry.href}>GitHub ↗</a></p>}
+      {entry.group && <a class="record-link" href={articleUrl(locale, entry.group.primary.routeSlug)}>{p.evidence}: {selectArticleLanguage(entry.group, locale).data.title}</a>}
+    </article>;
+  })}
+</div>
+<style>
+.portfolio-entry { padding: 1.25rem 0; border-top: 1px solid var(--line); }
+h2 { margin: 0 0 .5rem; font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
+p { max-width: 70ch; margin: .5rem 0; }
+.portfolio-meta, .record-link { color: var(--muted-readable); font-size: .8rem; }
+</style>

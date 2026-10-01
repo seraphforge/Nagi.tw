@@ -31,3 +31,19 @@ export function detailedTopics(groups: ArticleGroup[]) {
   }
   return [...topics.values()].sort((a, b) => a.title.localeCompare(b.title, 'zh-TW'));
 }
+
+export function visibleTopics(groups: ArticleGroup[]) {
+  const definitions = [
+    { slug: 'security', title: 'Security', match: /security|資安|ctf|malware|soc|wireshark/i },
+    { slug: 'ai', title: 'AI', match: /\bai\b|agent|人工智慧/i },
+    { slug: 'embedded', title: 'Embedded', match: /raspberry|embedded|hardware|frc|robot/i },
+    { slug: 'medical', title: 'Medical', match: /medical|health|醫療|医療/i },
+    { slug: 'systems', title: 'Systems', match: /linux|homelab|windows|system|系統/i },
+    { slug: 'life', title: 'Life', match: /personal|reflection|life|成長|近況|選擇|生活|growth/i },
+    { slug: 'research', title: 'Research', match: /research|研究|edge ai|醫療資安/i },
+    { slug: 'activities', title: 'Activities', match: /conference|competition|frc|ctf|hackathon|比賽|大會|研討會/i },
+  ];
+  return definitions.map(({ slug, title, match }) => ({ slug, title, groups: groups.filter(group =>
+    group.availableLanguages.some(language => match.test([group.variants[language]!.data.title, ...group.variants[language]!.data.tags].join(' '))) || group.category === slug || group.topic === slug
+  ) })).filter(topic => topic.groups.length > 0);
+}

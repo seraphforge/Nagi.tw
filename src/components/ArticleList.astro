@@ -1,60 +1,37 @@
 ---
-import type { ArticleGroup } from '../lib/articles';
-import { formatDate, languageLabel } from '../lib/articles';
-import { categoryOrder, categoryInfo, categoryLabel } from '../lib/categories';
-
-interface Props {
-  groups: ArticleGroup[];
-  filterable?: boolean;
-}
-
+import { selectArticleLanguage, type ArticleGroup } from '../lib/articles';
+import { categoryOrder } from '../lib/categories';
+import { pageI18n, formatDate } from '../i18n/helpers';
+import { articleUrl, languageTags } from '../i18n/routes';
+interface Props { groups: ArticleGroup[]; filterable?: boolean }
 const { groups, filterable = false } = Astro.props;
-const languageTags = { zh: 'zh-TW', en: 'en', ja: 'ja' } as const;
+const { locale, t } = pageI18n(Astro.url);
 ---
-
 {filterable && (
-  <nav class="category-navigation" aria-label="文章分類 / Article categories">
-    <div class="category-options" role="group" aria-label="選擇分類 / Select category">
-      <button type="button" data-category-filter="all" aria-pressed="true" aria-controls="article-list"><span lang="zh-TW">全部</span><span class="category-english" lang="en"> / ALL</span></button>
-      {categoryOrder.map((category) => (
-        <button type="button" data-category-filter={category} aria-pressed="false" aria-controls="article-list"><span lang="zh-TW">{categoryInfo[category].zh}</span><span class="category-english" lang="en"> / {categoryInfo[category].title.toUpperCase()}</span></button>
-      ))}
+  <nav class="category-navigation" aria-label={t.common.categories}>
+    <div class="category-options" role="group" aria-label={t.common.selectCategory}>
+      <button type="button" data-category-filter="all" aria-pressed="true" aria-controls="article-list"><span>{t.common.all}</span></button>
+      {categoryOrder.map((category) => <button type="button" data-category-filter={category} aria-pressed="false" aria-controls="article-list"><span>{t.categories[category].title}</span></button>)}
     </div>
   </nav>
 )}
-
 <div class="article-index" id="article-list">
-  {groups.map((group) => (
-    <div class="article-group" data-article-group data-language-group data-category={group.category} data-group-key={group.key}>
-    {group.availableLanguages.map((language) => {
-      const article = group.variants[language]!;
-      const defaultLanguage = group.variants.zh ? 'zh' : group.availableLanguages[0];
-      return (
-    <article
-      class="article-row"
-      data-article
-      data-language-variant={article.language}
-      data-search={`${article.data.title} ${article.data.description ?? ''} ${article.data.tags.join(' ')} ${article.category} ${categoryLabel(article.category, article.language)}`.toLowerCase()}
-      hidden={article.language !== defaultLanguage}
-    >
-      <div class="article-meta">
-        <time datetime={article.data.date.toISOString()}>{formatDate(article.data.date, article.language)}</time>
-        <span aria-hidden="true">·</span>
-        <span>{categoryLabel(article.category, article.language)}</span>
-        <span aria-hidden="true">·</span>
-        <span data-actual-language>{languageLabel[article.language]}</span>
-      </div>
-      <h2 lang={languageTags[article.language]}>
-        <a href={article.href}>{article.data.title}</a>
-      </h2>
-      {article.data.description && <p lang={languageTags[article.language]}>{article.data.description}</p>}
-    </article>
-      );
-    })}
-    </div>
-  ))}
+  {groups.map((group) => {
+    const article = selectArticleLanguage(group, locale);
+    return <div class="article-group" data-article-group data-category={group.category} data-group-key={group.key}>
+      <article class="article-row" data-article data-language-variant={article.language}>
+        <div class="article-meta">
+          <time datetime={article.data.date.toISOString()}>{formatDate(article.data.date, locale)}</time>
+          <span aria-hidden="true">·</span><span>{t.categories[article.category].title}</span>
+          <span aria-hidden="true">·</span><span data-actual-language>{t.common.languages[article.language]}</span>
+        </div>
+        <h2 lang={languageTags[article.language]}><a href={articleUrl(locale, group.primary.routeSlug)}>{article.data.title}</a></h2>
+        {article.data.description && <p lang={languageTags[article.language]}>{article.data.description}</p>}
+      </article>
+    </div>;
+  })}
 </div>
-<p id="empty" class="empty" role="status" hidden={groups.length > 0}>此分類目前沒有文章。 No articles in this category yet.</p>
+<p id="empty" class="empty" role="status" hidden={groups.length > 0}>{t.common.empty}</p>
 
 {filterable && (
   <script>
@@ -87,9 +64,6 @@ const languageTags = { zh: 'zh-TW', en: 'en', ja: 'ja' } as const;
     });
     selectCategory(new URLSearchParams(location.search).get('category') ?? 'all');
     window.addEventListener('popstate', () => selectCategory(new URLSearchParams(location.search).get('category') ?? 'all'));
-    document.addEventListener('nagi:language', (() => {
-      filter();
-    }) as EventListener);
   </script>
 )}
 
@@ -109,7 +83,7 @@ const languageTags = { zh: 'zh-TW', en: 'en', ja: 'ja' } as const;
     border-radius: 0;
     background: transparent;
     color: var(--muted-readable);
-    font: 500 0.95rem var(--sans);
+    font: 500 0.85rem var(--sans);
     white-space: nowrap;
     cursor: pointer;
   }
@@ -123,7 +97,7 @@ const languageTags = { zh: 'zh-TW', en: 'en', ja: 'ja' } as const;
 
   .article-row {
     position: relative;
-    padding: clamp(1.75rem, 4vw, 3rem) 0;
+    padding: clamp(1.25rem, 3vw, 2rem) 0;
     border-bottom: 1px solid var(--line);
   }
 
@@ -155,7 +129,7 @@ const languageTags = { zh: 'zh-TW', en: 'en', ja: 'ja' } as const;
   h2 {
     max-width: 56rem;
     margin: 0;
-    font-size: clamp(1.65rem, 3.5vw, 2.7rem);
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
     line-height: 1.16;
     font-weight: 500;
     letter-spacing: -0.02em;

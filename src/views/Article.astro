@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { selectArticleLanguage, type ArticleGroup } from '../lib/articles';
+import { render } from 'astro:content';
+import { withBase } from '../lib/urls';
+import { pageI18n, formatDate } from '../i18n/helpers';
+import { localeUrl, articleUrl, locales, languageTags } from '../i18n/routes';
+interface Props { group: ArticleGroup; groups: ArticleGroup[] }
+const { group, groups } = Astro.props;
+const { locale, t } = pageI18n(Astro.url);
+const article = selectArticleLanguage(group, locale);
+const fallback = article.language !== locale;
+const { Content, headings } = await render(article);
+const index = groups.findIndex((candidate) => candidate.key === group.key);
+const previous = groups[index + 1];
+const next = groups[index - 1];
+const image = article.data.cover ?? article.data.banner;
+---
+<BaseLayout title={article.data.title} description={fallback ? t.articles.fallback : article.data.description} image={image} articleLanguage={article.language}>
+  <article class="article container" data-article-key={group.key}>
+    <header>
+      <p class="eyebrow">{t.categories[article.category].title} · <span data-actual-language>{t.common.languages[article.language]}</span></p>
+      <h1 lang={languageTags[article.language]}>{article.data.title}</h1>
+      {article.data.description && <p class="deck" lang={languageTags[article.language]}>{article.data.description}</p>}
+      <div class="byline">
+        <time datetime={article.data.date.toISOString()}>{formatDate(article.data.date, locale)}</time>
+        <nav aria-label={t.common.translations}>
+          {locales.map((language) => <a href={articleUrl(language, group.primary.routeSlug)} data-article-language-link={language} aria-current={language === locale ? 'page' : undefined}>{t.common.languages[language]}</a>)}
+        </nav>
+      </div>
+      {fallback && <p class="muted" role="status" data-translation-fallback>{t.articles.fallback}</p>}
+      {image && <img class="cover" src={withBase(image)} alt="" />}
+    </header>
+    <div class="reading">
+      {headings.length >= 3 && <aside aria-label={t.common.contents}><details open><summary>{t.common.contents}</summary><ol>{headings.filter((heading) => heading.depth <= 3).map((heading) => <li class={`d${heading.depth}`}><a lang={languageTags[article.language]} href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol></details></aside>}
+      <div class="prose" lang={languageTags[article.language]} data-body-language={article.language}><Content /></div>
+    </div>
+    <footer class="article-nav">
+      <div>{previous && <><span>{t.common.previous}</span><a href={articleUrl(locale, previous.primary.routeSlug)}>{selectArticleLanguage(previous, locale).data.title}</a></>}</div>
+      <a href={localeUrl(locale, '/articles/')}>{t.common.back}</a>
+      <div>{next && <><span>{t.common.next}</span><a href={articleUrl(locale, next.primary.routeSlug)}>{selectArticleLanguage(next, locale).data.title}</a></>}</div>
+    </footer>
+  </article>
+</BaseLayout>
+<style>
+  .article { padding: 2.5rem 0; }
+  .article > header { position: relative; width: min(100%, 54rem); margin: auto; padding-top: 1.5rem; border-top: 3px solid var(--accent); }
+  .article h1 { margin: 0.6rem 0 1.2rem; font-size: clamp(1.55rem, 3.5vw, 2.35rem); }
+  .deck { color: var(--muted-readable); font-family: var(--serif); font-size: 1rem; }
+  .byline { display: flex; justify-content: space-between; margin-top: 2rem; padding: 1rem 0; border-top: 1px solid var(--line); font-size: 0.85rem; }
+  .byline nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+  .byline a { color: var(--muted-readable); }
+  .byline a[aria-current] { color: var(--accent); font-weight: 700; }
+  .cover { width: 100%; max-height: 460px; margin: 2rem 0; object-fit: cover; }
+  .reading { display: grid; grid-template-columns: minmax(0, 46rem) 13rem; justify-content: center; gap: 4rem; margin-top: 2rem; }
+  .reading aside { grid-column: 2; grid-row: 1; order: 2; color: var(--muted-readable); font-size: 0.75rem; }
+  aside ol { padding-left: 1rem; }
+  aside .d3 { margin-left: 0.6rem; }
+  aside a { color: inherit; }
+  .prose { margin: auto; }
+  .article-nav { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 2rem; margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: 0.85rem; }
+  .article-nav div:last-child { text-align: right; }
+  .article-nav span { display: block; color: var(--muted-readable); font-size: 0.72rem; }
+  .article-nav div a { color: var(--ink); }
+  @media (max-width: 950px) {
+    .reading { display: block; }
+    .reading aside { width: min(100%, 46rem); margin: 0 auto 2rem; }
+  }
+  @media (max-width: 650px) {
+    .article { padding: 3rem 0; }
+    .byline { display: block; }
+    .byline nav { margin-top: 0.7rem; }
+    .article-nav { grid-template-columns: 1fr; }
+    .article-nav div:last-child { text-align: left; }
+  }
+</style>
