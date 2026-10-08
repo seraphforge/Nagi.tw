@@ -1,37 +1,168 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ArticleList from '../components/ArticleList.astro';
-import PortfolioList from '../components/PortfolioList.astro';
-import { getPublicArticleGroups } from '../lib/articles';
 import { pageI18n } from '../i18n/helpers';
 import { localeUrl } from '../i18n/routes';
 import { profile } from '../i18n/profile';
-const { locale, t } = pageI18n(Astro.url);
+const { locale } = pageI18n(Astro.url);
 const p = profile[locale];
-const recent = (await getPublicArticleGroups()).slice(0, 3);
+const words = {
+  zh: { eyebrow: 'ENGINEERING / RESEARCH / SYSTEMS', intro: '從好奇開始，以工程實現想法。', activity: 'GitHub 貢獻活動', overview: '開源工程概覽', repositories: '公開儲存庫', stars: '獲得星數', languages: '主要語言', updated: '最近更新', loading: '載入 GitHub 公開資料中', unavailable: '暫時無法取得 GitHub 數據', projects: '精選工程專案', research: '研究方向', notes: '研究筆記', explore: '探索全部專案', open: '查看專案', current: '正在研究與建構', footer: '持續研究，持續建構。' },
+  en: { eyebrow: 'ENGINEERING / RESEARCH / SYSTEMS', intro: 'Built from curiosity. Driven by engineering.', activity: 'Contribution activity', overview: 'Open-source overview', repositories: 'Public repositories', stars: 'Stars received', languages: 'Primary languages', updated: 'Latest update', loading: 'Loading public GitHub data', unavailable: 'GitHub data temporarily unavailable', projects: 'Selected engineering work', research: 'Research areas', notes: 'Research notes', explore: 'Explore all projects', open: 'View project', current: 'Currently exploring', footer: 'Research continuously. Build deliberately.' },
+  ja: { eyebrow: 'ENGINEERING / RESEARCH / SYSTEMS', intro: '好奇心から始め、エンジニアリングで形にする。', activity: 'GitHub コントリビューション', overview: 'オープンソース活動', repositories: '公開リポジトリ', stars: '獲得スター', languages: '主要言語', updated: '最終更新', loading: 'GitHub データを読み込み中', unavailable: 'GitHub データを取得できません', projects: '主な開発プロジェクト', research: '研究分野', notes: '研究ノート', explore: 'すべてのプロジェクト', open: 'プロジェクトを見る', current: '現在の取り組み', footer: '研究し続け、作り続ける。' }
+}[locale];
+const featured = [
+ { name: 'AEUST Drone', label: 'UAV / AUTONOMOUS SYSTEMS', href: 'https://github.com/seraphforge/AEUST_drone', index: '01' },
+ { name: 'Nagi.tw', label: 'WEB / ENGINEERING', href: 'https://github.com/seraphforge/Nagi.tw', index: '02' },
+ { name: 'Research Notes', label: 'DOCUMENTATION / RESEARCH', href: 'https://github.com/seraphforge/notes.nagi.tw', index: '03' },
+ { name: 'Vacant Education Bureau', label: 'DATA / SOFTWARE SYSTEMS', href: 'https://github.com/seraphforge/Vacant-Education-Bureau', index: '04' }
+];
+const areas = ['Cybersecurity & 5G/6G', 'Embedded Systems & IoT', 'UAV & Autonomous Systems', 'Medical Technology', 'Applied AI'];
 ---
 <BaseLayout title="Hong Xin-Fu / Nagi" description={p.intro}>
-  <header class="container page-intro identity-intro">
-    <p class="eyebrow">Security · Systems · Research</p>
-    <h1>Hong Xin-Fu / Nagi</h1><p>{p.intro}</p>
-  </header>
-  <div class="container primary-home">
-    <section aria-labelledby="currently" class="currently"><h2 id="currently">{p.currently}</h2><p>{p.current}</p><p class="muted">{p.asOf} · <a href={localeUrl(locale, '/articles/recent-projects-and-life-update/')}>{p.evidence}</a></p></section>
-    <section aria-labelledby="featured-research"><div class="section-head"><h2 id="featured-research">{p.featuredResearch}</h2><a href={localeUrl(locale, '/research/')}>{p.more}</a></div><PortfolioList kind="research" featured /></section>
-    <section aria-labelledby="featured-projects"><div class="section-head"><h2 id="featured-projects">{p.featuredProjects}</h2><a href={localeUrl(locale, '/projects/')}>{p.more}</a></div><PortfolioList kind="projects" featured /></section>
-    <section aria-labelledby="recent-articles"><div class="section-head"><h2 id="recent-articles">{t.home.latest}</h2><a href={localeUrl(locale, '/articles/')}>{t.home.viewAll}</a></div><ArticleList groups={recent} /></section>
-    <section aria-labelledby="experience-preview"><div class="section-head"><h2 id="experience-preview">{p.experience}</h2><a href={localeUrl(locale, '/experience/')}>{p.more}</a></div><ul class="experience-preview">{t.experience.events.slice(0, 2).map(event => <li><h3>{event.name}</h3><p>{event.role}</p></li>)}</ul></section>
+  <div class="dash" data-engineering-dashboard>
+    <div class="dash-topline"><span>NAGI / ENGINEERING CONSOLE</span><span class="top-status"><i></i> GITHUB · SERAPHFORGE</span></div>
+    <div class="dash-grid">
+      <aside class="dash-sidebar" aria-label="Profile">
+        <div class="identity">
+          <img src="https://github.com/seraphforge.png?size=240" alt="Nagi GitHub avatar" width="92" height="92" loading="eager" />
+          <p class="identity-tag">STUDENT ENGINEER / TAIWAN</p>
+          <h1>Nagi<span>.</span></h1>
+          <p class="identity-name">Hong Xin-Fu</p>
+          <p class="identity-intro">{words.intro}</p>
+        </div>
+        <div class="sidebar-rule"></div>
+        <p class="micro-label">{words.current}</p>
+        <ul class="focus-list">{areas.map(area => <li><span class="focus-dot"></span>{area}</li>)}</ul>
+        <div class="sidebar-rule"></div>
+        <nav class="profile-links" aria-label="External profile links">
+          <a href="https://github.com/seraphforge" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+          <a href="https://nagi.tw" target="_blank" rel="noopener noreferrer">nagi.tw <span aria-hidden="true">↗</span></a>
+          <a href={localeUrl(locale, '/research/')}>{words.research} <span aria-hidden="true">↗</span></a>
+          <a href={localeUrl(locale, '/articles/')}>{words.notes} <span aria-hidden="true">↗</span></a>
+        </nav>
+        <p class="sidebar-foot">AEUST · TAIWAN<br />RESEARCH / ENGINEERING</p>
+      </aside>
+      <div class="dash-main">
+        <header class="dash-heading"><div><p class="micro-label">{words.eyebrow}</p><h2>Engineering activity<span class="heading-dot">.</span></h2></div><span class="heading-index">2026 / LIVE DATA</span></header>
+        <section class="panel contribution" aria-labelledby="activity-heading">
+          <div class="panel-head"><h3 id="activity-heading">{words.activity}</h3><span>GITHUB / 365 DAYS</span></div>
+          <a href="https://github.com/seraphforge" target="_blank" rel="noopener noreferrer" aria-label="View contribution activity on GitHub">
+            <img src="https://ghchart.rshah.org/3fb950/seraphforge" alt="GitHub contribution activity for seraphforge" width="720" height="110" loading="lazy" />
+          </a>
+          <p class="panel-caption">github.com/seraphforge · <span class="live-indicator">●</span> PUBLIC ACTIVITY</p>
+        </section>
+        <section aria-labelledby="overview-heading">
+          <div class="section-heading"><h3 id="overview-heading">{words.overview}</h3><span>01 — 04</span></div>
+          <div class="metrics" id="github-metrics" data-loading={words.loading} data-unavailable={words.unavailable}>
+            <div class="metric"><span class="metric-label">{words.repositories}</span><strong data-metric="repos">—</strong><span class="metric-detail">PUBLIC REPOS</span></div>
+            <div class="metric"><span class="metric-label">{words.stars}</span><strong data-metric="stars">—</strong><span class="metric-detail">ACROSS PUBLIC REPOS</span></div>
+            <div class="metric"><span class="metric-label">{words.languages}</span><strong data-metric="language">—</strong><span class="metric-detail">MOST USED</span></div>
+            <div class="metric"><span class="metric-label">{words.updated}</span><strong data-metric="updated">—</strong><span class="metric-detail">REPOSITORY PUSH</span></div>
+          </div>
+          <p class="data-status" id="github-status" role="status" aria-live="polite">{words.loading}</p>
+        </section>
+        <section aria-labelledby="projects-heading" class="work-section">
+          <div class="section-heading"><h3 id="projects-heading">{words.projects}</h3><a href={localeUrl(locale, '/projects/')}>{words.explore} ↗</a></div>
+          <div class="work-grid">{featured.map(item => <a class="work-item" href={item.href} target="_blank" rel="noopener noreferrer"><span class="work-index">{item.index} / PROJECT</span><strong>{item.name}</strong><span class="work-label">{item.label}</span><span class="work-arrow" aria-hidden="true">↗</span></a>)}</div>
+        </section>
+        <footer class="dash-footer"><span>{words.footer}</span><span>NAGI.TW / EST. 2026</span></footer>
+      </div>
+    </div>
   </div>
 </BaseLayout>
+<script>
+  const root = document.querySelector<HTMLElement>('[data-engineering-dashboard]');
+  if (root) {
+    const metrics = root.querySelector<HTMLElement>('#github-metrics');
+    const status = root.querySelector<HTMLElement>('#github-status');
+    const update = (name: string, value: string) => {
+      const el = root.querySelector<HTMLElement>(`[data-metric="${name}"]`);
+      if (el) el.textContent = value;
+    };
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 9000);
+    (async () => {
+      try {
+        const response = await fetch('https://api.github.com/users/seraphforge/repos?per_page=100&type=owner&sort=pushed', { signal: controller.signal, headers: { Accept: 'application/vnd.github+json' } });
+        if (!response.ok) throw new Error('GitHub API unavailable');
+        const data: unknown = await response.json();
+        if (!Array.isArray(data)) throw new Error('Invalid response');
+        const repos = data.filter((r: any) => r && typeof r === 'object' && !r.private && !r.fork);
+        const languages = new Map<string, number>();
+        for (const repo of repos) if (typeof repo.language === 'string') languages.set(repo.language, (languages.get(repo.language) || 0) + 1);
+        const primary = [...languages].sort((a,b) => b[1] - a[1])[0]?.[0] || '—';
+        update('repos', String(repos.length));
+        update('stars', String(repos.reduce((sum: number, r: any) => sum + (Number(r.stargazers_count) || 0), 0)));
+        update('language', primary);
+        const pushed = repos.map((r: any) => r.pushed_at).filter(Boolean).sort().reverse()[0];
+        update('updated', pushed ? new Date(pushed).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '—');
+        if (status) status.textContent = 'PUBLIC GITHUB API · ' + new Date().toLocaleDateString();
+        metrics?.classList.add('is-loaded');
+      } catch {
+        if (status) status.textContent = metrics?.dataset.unavailable || 'GitHub data unavailable';
+      } finally { clearTimeout(timeout); }
+    })();
+  }
+</script>
 <style>
-  .identity-intro { padding-top: 3rem; padding-bottom: 2.5rem; }
-  .identity-intro h1 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); }
-  .primary-home { padding-bottom: var(--space-section); }
-  .primary-home > section { margin-bottom: 3rem; }
-  .currently { border-left: 3px solid var(--accent); padding: .5rem 1.5rem; background: var(--ice); }
-  .currently h2 { font-size: 1.2rem; }
-  .section-head { flex-wrap: wrap; gap: .75rem; align-items: baseline; }
-  .section-head h2 { font-size: clamp(1.25rem, 2.5vw, 1.6rem); }
-  .experience-preview { list-style: none; padding: 0; }
-  .experience-preview li { border-top: 1px solid var(--line); padding: 1rem 0; }
+  :global(body:has(.dash)) { background:#0b0e13; color:#dce3ed; }
+  :global(body:has(.dash) .header) { background:#10151d; border-top:0; border-bottom:1px solid #28313c; }
+  :global(body:has(.dash) .header a), :global(body:has(.dash) .header .brand) { color:#dce3ed; }
+  :global(body:has(.dash) .header .language-switcher) { border-color:#28313c; }
+  :global(body:has(.dash) .header button) { color:#dce3ed; }
+  :global(body:has(.dash) .header .nav) { width:min(1420px,calc(100% - 48px)); }
+  :global(body:has(.dash) .header nav[data-open]) { background:#10151d; }
+  :global(body:has(.dash) .footer) { background:#0b0e13; }
+  .dash { --dash-line:#27313d; --dash-dim:#8b99aa; --dash-green:#55c882; width:min(1420px,calc(100% - 48px)); margin:0 auto; padding:22px 0 64px; color:#dce3ed; font-family:Inter,system-ui,sans-serif; }
+  .dash a { color:inherit; text-decoration:none; }
+  .dash-topline { display:flex; justify-content:space-between; gap:1rem; padding:4px 0 17px; color:#8b99aa; font-size:10px; letter-spacing:.17em; font-weight:650; }
+  .top-status { display:flex; align-items:center; gap:8px; }
+  .top-status i { display:inline-block; width:7px; height:7px; border-radius:50%; background:#55c882; box-shadow:0 0 12px #55c88277; }
+  .dash-grid { display:grid; grid-template-columns:minmax(245px, 300px) minmax(0,1fr); gap:18px; align-items:start; }
+  .dash-sidebar,.panel,.metric,.work-item { background:#121821; border:1px solid var(--dash-line); }
+  .dash-sidebar { border-radius:12px; padding:32px 26px; position:sticky; top:94px; }
+  .identity img { width:92px; height:92px; border-radius:50%; object-fit:cover; border:2px solid #354355; }
+  .identity-tag,.micro-label,.sidebar-foot,.work-index,.work-label,.metric-detail { font-size:10px; letter-spacing:.12em; color:var(--dash-dim); }
+  .identity-tag { margin:24px 0 7px; }
+  .identity h1 { font-family:Inter,system-ui,sans-serif; font-size:clamp(48px,5vw,70px); letter-spacing:-.075em; font-weight:780; line-height:1.05; margin:0; color:#f1f5fb; }
+  .identity h1 span,.heading-dot { color:var(--dash-green); }
+  .identity-name { margin:8px 0 22px; font-size:13px; color:#aab7c7; }
+  .identity-intro { margin:0; color:#c7d0dc; font-size:13px; line-height:1.8; }
+  .sidebar-rule { height:1px; background:var(--dash-line); margin:28px 0; }
+  .micro-label { margin:0 0 16px; }
+  .focus-list { list-style:none; padding:0; margin:0; display:grid; gap:14px; }
+  .focus-list li { display:flex; align-items:center; gap:10px; font-size:12px; color:#c4cfdd; }
+  .focus-dot { flex:none; width:5px; height:5px; border-radius:50%; background:#55c882; }
+  .profile-links { display:grid; gap:0; }
+  .profile-links a { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #232c36; font-size:13px; }
+  .profile-links a:hover,.work-item:hover strong,.section-heading a:hover { color:#65d696; }
+  .sidebar-foot { line-height:2; margin:34px 0 0; }
+  .dash-main { min-width:0; }
+  .dash-heading { min-height:135px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .dash-heading h2 { font-family:Inter,system-ui,sans-serif; color:#f1f5fb; font-size:clamp(27px,3.3vw,44px); letter-spacing:-.055em; font-weight:740; margin:0; }
+  .heading-index { font-size:10px; letter-spacing:.12em; color:var(--dash-dim); white-space:nowrap; }
+  .panel { border-radius:12px; padding:23px 25px; }
+  .panel-head,.section-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:21px; }
+  .panel-head h3,.section-heading h3 { font:650 14px Inter,system-ui,sans-serif; color:#e9eef5; margin:0; }
+  .panel-head span,.section-heading>span,.section-heading>a { color:var(--dash-dim); font-size:10px; letter-spacing:.08em; }
+  .contribution img { display:block; width:100%; height:auto; min-height:90px; object-fit:contain; }
+  .panel-caption { margin:16px 0 0; font-size:10px; color:var(--dash-dim); letter-spacing:.06em; }
+  .live-indicator { color:var(--dash-green); }
+  .section-heading { margin:36px 0 17px; }
+  .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+  .metric { display:flex; flex-direction:column; gap:15px; padding:20px 17px; border-radius:10px; min-height:145px; min-width:0; }
+  .metric-label { font-size:11px; color:#a6b4c5; }
+  .metric strong { font-size:clamp(19px,2.4vw,31px); font-weight:720; letter-spacing:-.04em; color:#f1f5fb; line-height:1.2; overflow-wrap:anywhere; }
+  .metric-detail { margin-top:auto; font-size:9px; }
+  .data-status { font-size:10px; color:var(--dash-dim); margin:10px 0 0; }
+  .work-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .work-item { min-height:147px; border-radius:10px; padding:20px; display:flex; flex-direction:column; gap:10px; position:relative; transition:border-color .2s; }
+  .work-item:hover { border-color:#4c9972; }
+  .work-item strong { font-size:17px; letter-spacing:-.02em; padding-right:20px; color:#e9eef5; }
+  .work-label { margin-top:auto; }
+  .work-arrow { position:absolute; right:18px; top:17px; color:var(--dash-green); }
+  .dash-footer { border-top:1px solid var(--dash-line); margin-top:35px; padding-top:17px; display:flex; justify-content:space-between; gap:15px; color:var(--dash-dim); font-size:10px; letter-spacing:.08em; }
+  @media(max-width:1050px) { .metrics { grid-template-columns:repeat(2,minmax(0,1fr)); } .dash-grid { grid-template-columns:250px minmax(0,1fr); } }
+  @media(max-width:760px) { .dash { width:calc(100% - 28px); padding-top:12px; } .dash-grid { grid-template-columns:minmax(0,1fr); } .dash-sidebar { position:static; } .dash-heading { min-height:105px; } .heading-index { display:none; } .work-grid { grid-template-columns:1fr; } .dash-topline { font-size:8px; } }
+  @media(max-width:440px) { .dash-sidebar { padding:24px 20px; } .panel { padding:18px 14px; } .metric { padding:17px 12px; } .dash-footer { flex-direction:column; } }
 </style>
