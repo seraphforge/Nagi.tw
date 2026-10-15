@@ -18,11 +18,13 @@ export async function siteRoutes() {
     if (existing) existing.groups = groups.filter(group => broad.groups.includes(group) || existing.groups.includes(group));
     else topics.push({ ...broad, legacy: false });
   }
+  const sections = ['competitions', 'learning', 'teaching'] as const;
   const fixed = { '': 'Home', about: 'About', contact: 'Contact', research: 'Research', projects: 'Projects', experience: 'Experience', articles: 'Articles', archive: 'Archive', topics: 'Topics' } as const;
   return locales.flatMap((locale) => {
     const path = (route: string) => [locale === 'zh' ? '' : locale, route].filter(Boolean).join('/') || undefined;
     return [
       ...Object.entries(fixed).map(([route, view]) => ({ params: { path: path(route) }, props: { view, groups } })),
+      ...sections.map((section) => ({ params: { path: path(section) }, props: { view: 'Hub', section } })),
       ...groups.map((group) => ({ params: { path: path(`articles/${group.primary.routeSlug}`) }, props: { view: 'Article', groups, group } })),
       ...topics.map((topic) => ({ params: { path: path(`topics/${topic.slug}`) }, props: { view: 'Topic', groups: topic.groups, topic } })),
     ];

@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleList from '../components/ArticleList.astro';
+import { getPublicArticleGroups } from '../lib/articles';
+import { getHubEntries, hubLabels, type HubSection } from '../lib/content-hub';
+import { pageI18n } from '../i18n/helpers';
+import { localeUrl } from '../i18n/routes';
+
+interface Props { section: HubSection }
+const { section } = Astro.props;
+const { locale } = pageI18n(Astro.url);
+const copy = hubLabels[locale][section];
+const entries = getHubEntries(locale).filter((item) => item.section === section);
+const articles = (await getPublicArticleGroups()).filter((group) =>
+  group.primary.data.hub_section === section
+);
+---
+<BaseLayout title={copy.title} description={copy.description}>
+  <header class="container page-intro">
+    <p class="eyebrow">Nagi / {section}</p>
+    <h1>{copy.title}</h1>
+    <p>{copy.description}</p>
+  </header>
+  <div class="container hub">
+    {entries.length > 0 && <section aria-labelledby="hub-history">
+      <h2 id="hub-history">{locale === 'zh' ? '活動與經歷' : locale === 'ja' ? '活動記録' : 'Experience'}</h2>
+      <ol class="history">
+        {entries.map((entry) => <li>
+          <span class="eyebrow">{entry.year ?? '—'}</span>
+          <div><h3>{entry.name}</h3><p>{entry.role}</p>
+          {entry.article && <a href={localeUrl(locale, `/articles/${entry.article}/`)}>{locale === 'zh' ? '閱讀相關文章 →' : locale === 'ja' ? '関連記事 →' : 'Read article →'}</a>}</div>
+        </li>)}
+      </ol>
+    </section>}
+    <section aria-labelledby="hub-writing">
+      <h2 id="hub-writing">{locale === 'zh' ? '相關文章' : locale === 'ja' ? '関連記事' : 'Writing'}</h2>
+      {articles.length ? <ArticleList groups={articles} /> : <p class="muted">{locale === 'zh' ? '文章正在整理中，未完成的內容不會提前公開。' : locale === 'ja' ? '記事は準備中です。' : 'Articles are being prepared.'}</p>}
+    </section>
+  </div>
+</BaseLayout>
+<style>
+  .hub { padding-bottom: var(--space-section); }
+  .hub section { margin-bottom: 3rem; }
+  .hub h2 { padding-bottom: .65rem; border-bottom: 1px solid var(--line); font-size: 1.15rem; }
+  .history { padding: 0; margin: 0; list-style: none; }
+  .history li { display: grid; grid-template-columns: 5rem minmax(0,1fr); gap: 1.5rem; padding: 1.2rem 0; border-bottom: 1px solid var(--line); }
+  .history h3 { margin: 0; font-size: 1.1rem; }
+  .history p { margin: .45rem 0; color: var(--muted-readable); }
+  .history a { font-size: .85rem; }
+  @media (max-width: 540px) { .history li { grid-template-columns: 1fr; gap: .35rem; } }
+</style>

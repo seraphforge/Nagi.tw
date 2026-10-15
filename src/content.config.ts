@@ -15,6 +15,7 @@ const articles = defineCollection({
     description: z.string().optional(), banner: z.string().optional(), cover: z.string().optional(),
     site_lang: z.string().optional(), translation_key: z.string().optional(), slug: z.string().optional(),
     featured: z.boolean().optional(), toc: z.boolean().optional(),
+    hub_section: z.enum(['competitions', 'learning', 'teaching']).optional(),
   }),
 });
 

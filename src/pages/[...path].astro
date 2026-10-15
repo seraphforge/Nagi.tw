@@ -11,8 +11,9 @@ import Archive from '../views/Archive.astro';
 import Topics from '../views/Topics.astro';
 import Topic from '../views/Topic.astro';
 import Article from '../views/Article.astro';
+import Hub from '../views/Hub.astro';
 export const getStaticPaths = siteRoutes;
 const views = { Home, About, Contact, Experience, Articles, Archive, Topics, Research, Projects };
 const View = views[Astro.props.view as keyof typeof views];
 ---
-<>{Astro.props.group ? <Article group={Astro.props.group} groups={Astro.props.groups} /> : Astro.props.topic ? <Topic topic={Astro.props.topic} /> : <View />}</>
+<>{Astro.props.group ? <Article group={Astro.props.group} groups={Astro.props.groups} /> : Astro.props.topic ? <Topic topic={Astro.props.topic} /> : Astro.props.section ? <Hub section={Astro.props.section} /> : <View />}</>
