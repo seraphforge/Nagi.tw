@@ -3,9 +3,10 @@ import ThemeControl from './ThemeControl.astro';
 import { profile } from '../i18n/profile';
 import { pageI18n } from '../i18n/helpers';
 import { localeUrl, locales, languageTags } from '../i18n/routes';
+import { hubLabels } from '../lib/content-hub';
 const { locale, route, t } = pageI18n(Astro.url);
-const links = ['research', 'projects', 'experience', 'articles', 'about'] as const;
-const labelsForLinks = { ...t.nav, research: profile[locale].research, projects: profile[locale].projects };
+const links = ['research', 'projects', 'competitions', 'learning', 'teaching', 'articles', 'about'] as const;
+const labelsForLinks = { ...t.nav, research: profile[locale].research, projects: profile[locale].projects, competitions: hubLabels[locale].competitions.title, learning: hubLabels[locale].learning.title, teaching: hubLabels[locale].teaching.title };
 const labels = { zh: '中', en: 'EN', ja: '日' };
 const languageNames = { zh: '中文', en: 'English', ja: '日本語' };
 ---
