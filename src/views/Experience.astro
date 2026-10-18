@@ -45,6 +45,14 @@ function groupByCategory(events: EventItem[]) {
   }
   return groups;
 }
+// Training and conference attendance is displayed consistently across all locales.
+// Competition results and leadership roles retain their original descriptions.
+const attendeeLabel = { zh: '與會者', en: 'Attendee', ja: '参加者' }[locale];
+for (const event of allEvents) {
+  if (event.category === 'training' || event.category === 'conferences') {
+    event.role = attendeeLabel;
+  }
+}
 const groups = groupByCategory(allEvents);
 ---
 <BaseLayout title={t.experience.title} description={t.experience.description}>
