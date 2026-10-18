@@ -19,6 +19,10 @@ export const additionalExperience: ExperienceEntry[] = [
  zh: { name: 'APCS 模擬測驗團隊暑期營隊', role: '程式設計能力鑑定準備培訓。' },
  en: { name: 'APCS Mock Test Team Summer Camp', role: 'Competitive programming preparation training.' },
  ja: { name: 'APCS 模擬テストチーム・サマーキャンプ', role: '競技プログラミングの準備研修。' } } },
+ { id: 'infosec-taiwan-2025', year: '2025', category: 'conferences', copy: {
+ zh: { name: 'InfoSec Taiwan 2025', role: '與會者' },
+ en: { name: 'InfoSec Taiwan 2025', role: 'Attendee' },
+ ja: { name: 'InfoSec Taiwan 2025', role: '参加者' } } },
  { id: 'hitcon-2025', year: '2025', category: 'conferences', copy: {
  zh: { name: 'HITCON Conference 2025', role: '臺灣資安社群年度旗艦研討會。' },
  en: { name: 'HITCON Conference 2025', role: 'Annual flagship security conference of the Taiwanese security community.' },
