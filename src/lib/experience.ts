@@ -2,7 +2,7 @@ import type { Locale } from '../i18n/routes';
 export type ExperienceCategory = 'competitions' | 'training' | 'conferences' | 'leadership';
 export interface ExperienceEntry { id: string; year?: string; article?: string; category: ExperienceCategory; copy: Record<Locale, { name: string; role: string }> }
 export const additionalExperience: ExperienceEntry[] = [
- { id: 'tatung-workshop', article: 'ctf-meets-malware-analysis-windows', category: 'training', copy: {
+ { id: 'tatung-workshop', year: '2026', article: 'ctf-meets-malware-analysis-windows', category: 'training', copy: {
  zh: { name: '大同大學資訊安全研習', role: '惡意程式分析、網路攻防與連線行為實作。' },
  en: { name: 'Tatung University Information Security Workshop', role: 'Malware analysis and network attack/defense practice.' },
  ja: { name: '大同大学 情報セキュリティ研修', role: 'マルウェア解析とネットワーク攻防の実習。' } } },
