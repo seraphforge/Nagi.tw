@@ -25,7 +25,7 @@ const image = article.data.cover ?? article.data.banner;
       <div class="byline">
         <time datetime={article.data.date.toISOString()}>{formatDate(article.data.date, locale)}</time>
         <nav aria-label={t.common.translations}>
-          {locales.map((language) => <a href={articleUrl(language, group.primary.routeSlug)} data-article-language-link={language} aria-current={language === locale ? 'page' : undefined}>{t.common.languages[language]}</a>)}
+          {group.availableLanguages.map((language) => <a href={articleUrl(language, group.primary.routeSlug)} data-article-language-link={language} aria-current={language === locale ? 'page' : undefined}>{t.common.languages[language]}</a>)}
         </nav>
       </div>
       {fallback && <p class="muted" role="status" data-translation-fallback>{t.articles.fallback}</p>}

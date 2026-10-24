@@ -6,6 +6,7 @@ import { articleUrl, languageTags } from '../i18n/routes';
 interface Props { groups: ArticleGroup[]; filterable?: boolean }
 const { groups, filterable = false } = Astro.props;
 const { locale, t } = pageI18n(Astro.url);
+const visibleGroups = groups.filter((group) => Boolean(group.variants[locale]));
 ---
 {filterable && (
   <nav class="category-navigation" aria-label={t.common.categories}>
@@ -16,8 +17,8 @@ const { locale, t } = pageI18n(Astro.url);
   </nav>
 )}
 <div class="article-index" id="article-list">
-  {groups.map((group) => {
-    const article = selectArticleLanguage(group, locale);
+  {visibleGroups.map((group) => {
+    const article = group.variants[locale]!;
     return <div class="article-group" data-article-group data-category={group.category} data-group-key={group.key}>
       <article class="article-row" data-article data-language-variant={article.language}>
         <div class="article-meta">
@@ -31,7 +32,7 @@ const { locale, t } = pageI18n(Astro.url);
     </div>;
   })}
 </div>
-<p id="empty" class="empty" role="status" hidden={groups.length > 0}>{t.common.empty}</p>
+<p id="empty" class="empty" role="status" hidden={visibleGroups.length > 0}>{t.common.empty}</p>
 
 {filterable && (
   <script>

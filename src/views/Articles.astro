@@ -1,16 +1,17 @@
 ---
 import { pageI18n } from '../i18n/helpers';
-const { t } = pageI18n(Astro.url);
+const { locale, t } = pageI18n(Astro.url);
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleList from '../components/ArticleList.astro';
 import { getPublicArticleGroups } from '../lib/articles';
 
 const groups = await getPublicArticleGroups();
+const translatedCount = groups.filter((group) => Boolean(group.variants[locale])).length;
 ---
 
 <BaseLayout title={t.articles.title} description={t.articles.description}>
   <header class="container page-intro">
-    <p class="eyebrow">{t.articles.eyebrow} · {groups.length} {t.common.notes}</p>
+    <p class="eyebrow">{t.articles.eyebrow} · {translatedCount} {t.common.notes}</p>
     <h1>{t.articles.title}</h1>
     <p>{t.articles.description}</p>
   </header>
