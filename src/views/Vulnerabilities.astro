@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageI18n } from '../i18n/helpers';
+import { findings } from '../lib/vulnerabilities';
+const { locale } = pageI18n(Astro.url);
+const copy = {
+  zh: { title:'漏洞研究成果',subtitle:'網站與物聯網安全研究、負責任揭露與通報紀錄。',all:'全部',web:'網站安全',iot:'IoT 安全',year:'年份',total:'已審核紀錄',activity:'年度通報活動',note:'熱力圖依審核通知日期統計；不代表漏洞發現日期。',empty:'目前沒有符合條件的紀錄。',reviewed:'審核通過',disclosed:'已公開',planned:'預定公開',unknown:'未確認',date:'審核日期',more:'官方紀錄',disclaimer:'未公開的漏洞技術細節與受影響資產不會在此揭露。',less:'少',many:'多'},
+  en: { title:'Vulnerability Research',subtitle:'Web and IoT security findings and responsible disclosure records.',all:'All',web:'Web Security',iot:'IoT Security',year:'Year',total:'Reviewed findings',activity:'Annual disclosure activity',note:'Activity is based on review notification dates, not discovery dates.',empty:'No matching findings.',reviewed:'Reviewed',disclosed:'Disclosed',planned:'Planned disclosure',unknown:'Unconfirmed',date:'Review date',more:'Official record',disclaimer:'Undisclosed technical details and affected targets are not published here.',less:'Less',many:'More'},
+  ja: { title:'脆弱性研究実績',subtitle:'Web・IoT のセキュリティ研究と責任ある開示の記録。',all:'すべて',web:'Web セキュリティ',iot:'IoT セキュリティ',year:'年',total:'審査済み',activity:'年間活動',note:'ヒートマップは発見日ではなく審査通知日を基準にしています。',empty:'該当する記録はありません。',reviewed:'審査済み',disclosed:'公開済み',planned:'公開予定',unknown:'未確認',date:'審査日',more:'公式記録',disclaimer:'未公開の技術的詳細や対象資産は掲載しません。',less:'少',many:'多'}
+}[locale];
+const years = [...new Set([new Date().getFullYear(), ...findings.map(f => Number(f.reviewDate.slice(0,4)))])].sort((a,b)=>b-a);
+const severityLabels = {low:'Low',medium:'Medium',high:'High',critical:'Critical'};
+---
+<BaseLayout title={copy.title} description={copy.subtitle}>
+<section class="container vulnerability-page">
+  <p class="eyebrow">NAGI / SECURITY RESEARCH</p>
+  <h1>{copy.title}</h1>
+  <p class="intro">{copy.subtitle}</p>
+  <div class="summary"><div><strong>{findings.length}</strong><span>{copy.total}</span></div><div><strong>{findings.filter(f=>f.category==='web').length}</strong><span>Web</span></div><div><strong>{findings.filter(f=>f.category==='iot').length}</strong><span>IoT</span></div></div>
+  <div class="toolbar">
+    <div class="filters" role="group" aria-label="Category">
+      <button type="button" data-filter="all" aria-pressed="true">{copy.all}</button>
+      <button type="button" data-filter="web" aria-pressed="false">{copy.web}</button>
+      <button type="button" data-filter="iot" aria-pressed="false">{copy.iot}</button>
+    </div>
+    <label>{copy.year} <select id="finding-year">{years.map(year=><option value={year}>{year}</option>)}</select></label>
+  </div>
+  <h2>{copy.activity}</h2>
+  <div class="heatmap-scroll"><div id="activity-months" class="months" aria-hidden="true"></div><div id="activity-grid" class="heatmap" role="img" aria-label={copy.activity}></div></div>
+  <div class="legend"><span>{copy.less}</span>{[0,1,2,3,4].map(level=><i class={'level level-'+level}></i>)}<span>{copy.many}</span></div>
+  <p class="hint">{copy.note}</p>
+  <h2>Findings</h2>
+  <div id="finding-list">
+  {findings.map(f=><article class="finding" data-category={f.category} data-year={f.reviewDate.slice(0,4)}>
+    <div class="finding-heading"><h3>{f.id}</h3><span class={'severity '+f.severity}>{severityLabels[f.severity]}</span></div>
+    <p>{f.platform} · {f.category.toUpperCase()} · {f.status==='reviewed'?copy.reviewed:copy.disclosed}</p>
+    <dl><div><dt>{copy.date}</dt><dd>{f.reviewDate}</dd></div><div><dt>{copy.planned}</dt><dd>{f.plannedDisclosureDate??copy.unknown}</dd></div></dl>
+    {f.url && <a href={f.url} target="_blank" rel="noopener noreferrer">{copy.more} ↗</a>}
+  </article>)}
+  </div>
+  <p id="finding-empty" hidden>{copy.empty}</p>
+  <p class="hint">{copy.disclaimer}</p>
+</section>
+</BaseLayout>
+<script define:vars={{ records: findings.map(f=>({date:f.reviewDate,category:f.category})), months: locale==='zh'?['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']:locale==='ja'?['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'] }}>
+  const select=document.getElementById('finding-year');
+  const grid=document.getElementById('activity-grid');
+  const monthRow=document.getElementById('activity-months');
+  const buttons=[...document.querySelectorAll('[data-filter]')];
+  let category='all';
+  function render(){
+    const year=Number(select.value);
+    const first=new Date(Date.UTC(year,0,1));
+    first.setUTCDate(first.getUTCDate()-first.getUTCDay());
+    const last=new Date(Date.UTC(year,11,31));
+    const weeks=Math.ceil(((last-first)/86400000+1)/7);
+    const counts=new Map();
+    for(const r of records) if(r.date.startsWith(String(year))&&(category==='all'||r.category===category)) counts.set(r.date,(counts.get(r.date)||0)+1);
+    grid.replaceChildren();monthRow.replaceChildren();
+    grid.style.gridTemplateColumns='repeat('+weeks+', 11px)';
+    monthRow.style.width=(weeks*14)+'px';
+    for(let w=0;w<weeks;w++){
+      for(let d=0;d<7;d++){
+        const day=new Date(first);day.setUTCDate(first.getUTCDate()+w*7+d);
+        const key=day.toISOString().slice(0,10), valid=day.getUTCFullYear()===year;
+        const square=document.createElement('span');
+        square.className='day '+(valid?'level-'+Math.min(4,counts.get(key)||0):'outside');
+        if(valid) square.title=key+' · '+(counts.get(key)||0);
+        grid.append(square);
+      }
+    }
+    for(let m=0;m<12;m++){
+      const day=new Date(Date.UTC(year,m,1));
+      const week=Math.floor((day-first)/86400000/7);
+      const label=document.createElement('span');label.textContent=months[m];label.style.left=(week*14)+'px';monthRow.append(label);
+    }
+    let shown=0;
+    for(const card of document.querySelectorAll('.finding')){
+      const visible=card.dataset.year===String(year)&&(category==='all'||card.dataset.category===category);
+      card.hidden=!visible;if(visible)shown++;
+    }
+    document.getElementById('finding-empty').hidden=shown!==0;
+  }
+  buttons.forEach(b=>b.addEventListener('click',()=>{category=b.dataset.filter;buttons.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render()}));
+  select.addEventListener('change',render);render();
+</script>
+<style>
+.vulnerability-page{padding-block:4rem 6rem;max-width:1000px}.eyebrow{font-size:.72rem;letter-spacing:.17em;color:var(--muted-readable)}h1{font-size:clamp(2rem,5vw,3.5rem);margin:.5rem 0}.intro,.hint{color:var(--muted-readable)}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:2.5rem 0}.summary>div,.finding{border:1px solid var(--line);padding:1.2rem;border-radius:8px}.summary strong{display:block;font-size:2rem}.summary span{font-size:.8rem;color:var(--muted-readable)}.toolbar{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center;margin:2rem 0}.filters{display:flex;gap:.5rem;flex-wrap:wrap}.filters button,select{border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:.55rem .8rem;border-radius:5px;cursor:pointer}.filters button[aria-pressed=true]{border-color:var(--accent);font-weight:700}h2{margin:2.5rem 0 1rem}.heatmap-scroll{overflow-x:auto;padding:0 0 1rem}.months{height:23px;position:relative;font-size:.7rem;color:var(--muted-readable)}.months span{position:absolute;white-space:nowrap}.heatmap{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,11px);gap:3px;width:max-content}.day,.level{width:11px;height:11px;border-radius:2px;background:#ebedf0}.level-1{background:#9be9a8}.level-2{background:#40c463}.level-3{background:#30a14e}.level-4{background:#216e39}.outside{background:transparent}.legend{display:flex;align-items:center;justify-content:flex-end;gap:4px;font-size:.75rem;color:var(--muted-readable)}.legend span{margin:0 .35rem}.finding{margin-bottom:1rem}.finding[hidden]{display:none}.finding-heading{display:flex;justify-content:space-between;gap:1rem;align-items:center}.finding h3{margin:0}.finding p{color:var(--muted-readable)}.finding dl{display:flex;flex-wrap:wrap;gap:2rem}.finding dt{font-size:.75rem;color:var(--muted-readable)}.finding dd{margin:0}.severity{border-radius:20px;padding:.25rem .65rem;font-size:.75rem;font-weight:700}.low{background:#d6f5df;color:#14532d}.medium{background:#fff0b3;color:#713f12}.high,.critical{background:#fee2e2;color:#991b1b}@media(max-width:500px){.summary{gap:.5rem}.summary>div{padding:.7rem}.summary strong{font-size:1.5rem}}
+</style>
