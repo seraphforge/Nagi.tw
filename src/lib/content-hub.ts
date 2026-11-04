@@ -8,17 +8,17 @@ export const hubLabels: Record<Locale, Record<HubSection, { title: string; descr
   zh: {
     competitions: { title: '參賽歷程', description: '不只留下結果，也留下組隊、開發與重新思考的過程。' },
     learning: { title: '研習紀錄', description: '參加過的研習、工作坊與技術交流，以及真正學到的事。' },
-    teaching: { title: '教學分享', description: '從助教、社課到技術分享，記錄準備與教學中的收穫。' },
+    teaching: { title: '教學分享', description: '從助教、社課到課程設計，記錄準備與教學中的收穫。' },
   },
   en: {
     competitions: { title: 'Competitions', description: 'The teams, projects and lessons beyond the final results.' },
     learning: { title: 'Learning', description: 'Workshops, training and technical community experiences.' },
-    teaching: { title: 'Teaching', description: 'What I learned from mentoring, preparing classes and sharing ideas.' },
+    teaching: { title: 'Teaching', description: 'What I learned from mentoring, preparing classes and designing lessons.' },
   },
   ja: {
     competitions: { title: '大会・コンテスト', description: '結果だけでなく、チームと開発の過程も記録します。' },
     learning: { title: '研修・学び', description: '研修やワークショップ、技術交流で学んだこと。' },
-    teaching: { title: '教えること', description: 'TA や講義、知識を共有した経験の記録。' },
+    teaching: { title: '教えること', description: 'TA や授業準備、教材づくりから学んだことの記録。' },
   },
 };
 
