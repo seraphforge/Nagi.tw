@@ -12,9 +12,10 @@ import Topics from '../views/Topics.astro';
 import Topic from '../views/Topic.astro';
 import Article from '../views/Article.astro';
 import Hub from '../views/Hub.astro';
+import Talks from '../views/Talks.astro';
 import Vulnerabilities from '../views/Vulnerabilities.astro';
 export const getStaticPaths = siteRoutes;
-const views = { Home, About, Contact, Experience, Articles, Archive, Topics, Research, Projects, Vulnerabilities };
+const views = { Home, About, Contact, Experience, Articles, Archive, Topics, Research, Projects, Vulnerabilities, Talks };
 const View = views[Astro.props.view as keyof typeof views];
 ---
 <>{Astro.props.group ? <Article group={Astro.props.group} groups={Astro.props.groups} /> : Astro.props.topic ? <Topic topic={Astro.props.topic} /> : Astro.props.section ? <Hub section={Astro.props.section} /> : <View />}</>
