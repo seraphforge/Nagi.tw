@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageI18n } from '../i18n/helpers';
+import { talks, talksCopy, talkStatusLabels } from '../lib/talks';
+const { locale } = pageI18n(Astro.url);
+const copy = talksCopy[locale];
+---
+<BaseLayout title={copy.title} description={copy.description}>
+  <header class="container page-intro">
+    <p class="eyebrow">Nagi / talks</p>
+    <h1>{copy.title}</h1>
+    <p>{copy.description}</p>
+  </header>
+  <div class="container talks">
+    <ol class="talk-list">
+      {talks.map((talk) => <li>
+        <span class="eyebrow">{talk.year}</span>
+        <div>
+          <p class="event">{talk.copy[locale].event} <span class="status">{talkStatusLabels[locale][talk.status]}</span></p>
+          <h2>{talk.copy[locale].title}</h2>
+          <p>{talk.copy[locale].summary}</p>
+          {talk.slides || talk.recording
+            ? <div class="resources">
+                {talk.slides && <a href={talk.slides} rel="noopener noreferrer">{locale === 'zh' ? '簡報' : locale === 'ja' ? 'スライド' : 'Slides'}</a>}
+                {talk.recording && <a href={talk.recording} rel="noopener noreferrer">{locale === 'zh' ? '錄影' : locale === 'ja' ? '録画' : 'Recording'}</a>}
+              </div>
+            : <p class="muted note">{copy.materials}</p>}
+        </div>
+      </li>)}
+    </ol>
+  </div>
+</BaseLayout>
+<style>
+  .talks { padding-bottom: var(--space-section); }
+  .talk-list { list-style: none; margin: 0; padding: 0; }
+  .talk-list li { display: grid; grid-template-columns: 5rem minmax(0,1fr); gap: 1.5rem; padding: 1.5rem 0; border-top: 1px solid var(--line); }
+  .talk-list h2 { margin: .5rem 0; font-size: clamp(1.2rem, 3vw, 1.55rem); }
+  .talk-list p { color: var(--muted-readable); }
+  .event { margin: 0; font-weight: 700; color: var(--ink) !important; }
+  .status { display: inline-block; margin-left: .5rem; padding: .2rem .5rem; font-size: .72rem; font-weight: 600; border: 1px solid var(--line); border-radius: 999px; color: var(--muted-readable); }
+  .resources { display: flex; gap: 1rem; margin-top: 1rem; }
+  .note { font-size: .85rem; }
+  @media (max-width: 540px) { .talk-list li { grid-template-columns: 1fr; gap: .35rem; } .status { margin-top: .35rem; } }
+</style>

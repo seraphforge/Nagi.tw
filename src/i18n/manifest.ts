@@ -19,7 +19,7 @@ export async function siteRoutes() {
     else topics.push({ ...broad, legacy: false });
   }
   const sections = ['competitions', 'learning', 'teaching'] as const;
-  const fixed = { '': 'Home', about: 'About', contact: 'Contact', research: 'Research', projects: 'Projects', experience: 'Experience', articles: 'Articles', archive: 'Archive', topics: 'Topics', security: 'Vulnerabilities' } as const;
+  const fixed = { '': 'Home', about: 'About', contact: 'Contact', research: 'Research', projects: 'Projects', experience: 'Experience', articles: 'Articles', archive: 'Archive', topics: 'Topics', security: 'Vulnerabilities', talks: 'Talks' } as const;
   return locales.flatMap((locale) => {
     const path = (route: string) => [locale === 'zh' ? '' : locale, route].filter(Boolean).join('/') || undefined;
     return [
